@@ -1,0 +1,75 @@
+<header
+  class="fixed top-0 left-0 w-full bg-transparent border-b border-b-border-darkest z-50"
+>
+  <app-container [className]="'flex items-center justify-between py-2.5'">
+    <!--============== Logo ==============-->
+    <app-logo [title]="title" />
+
+    <!--============== Header Actions ==============-->
+    <ul class="flex items-center gap-1.5">
+      <!-- Search -->
+      <li>
+        <button class="header-action-btn group">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="25"
+            height="25"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="lucide lucide-search-icon lucide-search group-hover:scale-105 group-hover:text-icon-darker transition-transform duration-200 ease-in-out"
+          >
+            <path d="m21 21-4.34-4.34" />
+            <circle cx="11" cy="11" r="8" />
+          </svg>
+        </button>
+      </li>
+
+      <!-- Authentication -->
+      <li>
+        <button class="header-action-btn group">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="25"
+            height="25"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="lucide lucide-user-round-icon lucide-user-round group-hover:scale-105 group-hover:text-icon-darker transition-transform duration-200 ease-in-out"
+          >
+            <circle cx="12" cy="8" r="5" />
+            <path d="M20 21a8 8 0 0 0-16 0" />
+          </svg>
+        </button>
+      </li>
+
+      <!-- Mobile Menu -->
+      <li>
+        <button class="header-action-btn group">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="25"
+            height="25"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="lucide lucide-text-align-justify-icon lucide-text-align-justify group-hover:scale-105 group-hover:text-icon-darker transition-transform duration-200 ease-in-out"
+          >
+            <path d="M3 5h18" />
+            <path d="M3 12h18" />
+            <path d="M3 19h18" />
+          </svg>
+        </button>
+      </li>
+    </ul>
+  </app-container>
+</header>

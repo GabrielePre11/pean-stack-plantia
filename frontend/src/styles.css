@@ -1,1 +1,57 @@
 @import "tailwindcss";
+
+@theme {
+  --color-accent: #9cff00;
+  --color-text: #e3e6da;
+  --color-text-meta: rgba(227, 230, 218, 0.7);
+  --color-button-bg: #9cff00;
+  --color-button-hover-bg: #8ce600;
+  --color-button-active-bg: #7dcc00;
+  --color-bg: #17392a;
+  --color-bg-transparent: rgba(23, 57, 42, 0.8);
+  --color-bg-contrast: #2d7052;
+  --color-bg-darker: #132e22;
+  --color-background-meta: #1d4835;
+  --color-border: #dedede;
+  --color-border-medium: #c5c5c5;
+  --color-border-darker: #b8b8b8;
+  --color-border-darkest: #9e9e9e;
+  --color-input-text: #888888;
+  --color-input-inactive-text: rgba(136, 136, 136, 0.7);
+  --color-icon: #b1b1b1;
+  --color-icon-darker: #8b8b8b;
+  --color-icon-darkerest: #717171;
+
+  --font-primary: "Google Sans", sans-serif;
+  --font-secondary: "Dancing Script", cursive;
+}
+
+@layer base {
+  body {
+    @apply font-primary bg-bg text-text overflow-x-hidden antialiased;
+  }
+
+  html {
+    @apply scroll-smooth;
+  }
+
+  a {
+    @apply decoration-0;
+  }
+
+  ul {
+    @apply list-none;
+  }
+
+  img {
+    @apply h-auto max-w-full;
+  }
+
+  button {
+    @apply cursor-pointer;
+  }
+}
+
+.header-action-btn {
+  @apply grid place-items-center p-1.5 border border-transparent hover:border-icon-darker transition-colors duration-200 ease-in-out;
+}
