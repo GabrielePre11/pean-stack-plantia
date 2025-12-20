@@ -1,0 +1,15 @@
+export const CATEGORIES: { name: string }[] = [
+  { name: "Monstera" },
+  { name: "Philodendron" },
+  { name: "Ficus" },
+  { name: "Succulents" },
+  { name: "Calathea" },
+  { name: "Cactus" },
+  { name: "Palm" },
+  { name: "Fern" },
+  { name: "Bonsai" },
+  { name: "Alocasia" },
+  { name: "Anthurium" },
+  { name: "Begonia" },
+  { name: "Orchid" },
+];

@@ -1,0 +1,140 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+//============ Models ============//
+
+model User {
+  id       Int      @id @default(autoincrement())
+  name     String
+  email    String   @unique
+  password String
+  role     ROLE @default(USER)
+
+  reviews  Review[]
+  wishlist Wishlist?
+  cart     Cart?
+}
+
+model Wishlist {
+  id     Int            @id @default(autoincrement())
+  userId Int            @unique
+  items  WishlistItem[]
+
+  user   User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model WishlistItem {
+  id         Int      @id @default(autoincrement())
+  wishlistId Int
+  plantId    Int
+
+  wishlist  Wishlist @relation(fields: [wishlistId], references: [id], onDelete: Cascade)
+  plant     Plant    @relation(fields: [plantId], references: [id], onDelete: Cascade)
+
+  @@unique([wishlistId, plantId])
+}
+
+model Cart {
+  id     Int        @id @default(autoincrement())
+  userId Int        @unique
+  items  CartItem[]
+
+  user   User       @relation(fields: [userId], references: [id])
+}
+
+model CartItem {
+  id       Int     @id @default(autoincrement())
+  cartId   Int
+  plantId  Int
+  quantity Int     @default(1)
+
+  cart     Cart    @relation(fields: [cartId], references: [id])
+  plant    Plant   @relation(fields: [plantId], references: [id])
+
+  @@unique([cartId, plantId])
+}
+
+model Plant {
+  id               Int             @id @default(autoincrement())
+  name             String
+  slug             String          @unique
+  description      String
+  image            String
+  additionalImages String[]
+  categoryId       Int
+  careLevel        CareLevel
+  light            LightType
+  water            WaterType
+  price            Decimal
+  stock            Int
+  isActive         Boolean         @default(true)
+
+  reviews          Review[]
+  wishlistItems    WishlistItem[]
+  cartItems        CartItem[]
+
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
+
+  category         Category        @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+}
+
+model Category {
+  id     Int     @id @default(autoincrement())
+  name   String
+  slug   String  @unique
+  plants Plant[]
+}
+
+model Review {
+  id        Int      @id @default(autoincrement())
+  rating    Float
+  comment   String?
+  userId    Int
+  plantId   Int
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  plant     Plant    @relation(fields: [plantId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, plantId])
+}
+
+//============ Enums ============//
+
+enum ROLE {
+  USER
+  ADMIN
+}
+
+enum CareLevel {
+  EASY
+  MEDIUM
+  HARD
+}
+
+enum LightType {
+  LOW
+  INDIRECT
+  DIRECT
+}
+
+enum WaterType {
+  LOW
+  MEDIUM
+  HIGH
+}
