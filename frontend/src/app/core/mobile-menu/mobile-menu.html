@@ -1,0 +1,89 @@
+<nav
+  class="fixed flex top-0 left-0 w-65.5 h-dvh flex-col bg-amber-50 overflow-x-auto z-50 transition-transform duration-200 ease-in-out"
+  [ngClass]="isOpen() ? 'translate-x-0 visible' : '-translate-x-66.25 pointer-events-none'"
+>
+  <!--============== Header ==============-->
+  <div
+    class="flex items-center justify-between py-2.5 px-5 bg-bg-contrast w-full border-b border-b-border-darkest"
+  >
+    <h3 class="text-3xl font-secondary text-accent">Menu</h3>
+
+    <!--============== Close Mobile Menu ==============-->
+    <button
+      class="header-action-btn group"
+      aria-label="Close Mobile Menu"
+      (click)="closeMobileMenu()"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="25"
+        height="25"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="white"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="lucide lucide-x-icon lucide-x group-hover:scale-105 group-hover:text-icon-darker transition-transform duration-200 ease-in-out"
+      >
+        <path d="M18 6 6 18" />
+        <path d="m6 6 12 12" />
+      </svg>
+    </button>
+  </div>
+
+  <!--============== Navigation ==============-->
+  <ul
+    class="grid grid-cols-1 mt-5"
+    role="navigation"
+    aria-orientation="vertical"
+  >
+    <ul class="flex flex-col">
+      @for (link of mobileMenuLinks.slice(0, 4); track link.name) {
+      <li
+        class="text-bg-contrast hover:text-accent hover:bg-bg-contrast text-xl px-5 py-3 border-b border-b-border-medium font-normal transition-colors duration-200 ease-in-out"
+        (click)="closeMobileMenu()"
+      >
+        <a
+          [routerLink]="link.path"
+          routerLinkActive="text-accent font-semibold"
+          [routerLinkActiveOptions]="{exact: true}"
+          >{{link.name}}</a
+        >
+      </li>
+      }
+    </ul>
+
+    <ul class="flex flex-col mt-5">
+      @for (link of mobileMenuLinks.slice(4, 6); track link.name) {
+      <li
+        class="text-bg-contrast hover:text-accent hover:bg-bg-contrast text-xl px-5 py-3 border-b border-b-border-medium font-normal transition-colors duration-200 ease-in-out"
+        (click)="closeMobileMenu()"
+      >
+        <a
+          [routerLink]="link.path"
+          routerLinkActive="text-accent"
+          [routerLinkActiveOptions]="{exact: true}"
+          >{{link.name}}</a
+        >
+      </li>
+      }
+    </ul>
+
+    <ul class="flex flex-col mt-5">
+      @for (link of mobileMenuLinks.slice(6, 8); track link.name) {
+      <li
+        class="text-bg-contrast hover:text-accent hover:bg-bg-contrast text-xl px-5 py-3 border-b border-b-border-medium font-normal transition-colors duration-200 ease-in-out"
+        (click)="closeMobileMenu()"
+      >
+        <a
+          [routerLink]="link.path"
+          routerLinkActive="text-accent"
+          [routerLinkActiveOptions]="{exact: true}"
+          >{{link.name}}</a
+        >
+      </li>
+      }
+    </ul>
+  </ul>
+</nav>

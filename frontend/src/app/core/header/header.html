@@ -1,7 +1,31 @@
 <header
-  class="fixed top-0 left-0 w-full bg-transparent border-b border-b-border-darkest z-50"
+  class="fixed top-0 left-0 w-full bg-transparent border-b border-b-border-darkest z-40"
 >
   <app-container [className]="'flex items-center justify-between py-2.5'">
+    <!--============== Mobile Menu Icon ==============-->
+    <button
+      class="header-action-btn group"
+      aria-label="Open Mobile Menu"
+      (click)="toggleMobileMenu()"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="25"
+        height="25"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="lucide lucide-text-align-justify-icon lucide-text-align-justify group-hover:scale-105 group-hover:text-icon-darker transition-transform duration-200 ease-in-out"
+      >
+        <path d="M3 5h18" />
+        <path d="M3 12h18" />
+        <path d="M3 19h18" />
+      </svg>
+    </button>
+
     <!--============== Logo ==============-->
     <app-logo [title]="title" />
 
@@ -9,7 +33,7 @@
     <ul class="flex items-center gap-1.5">
       <!-- Search -->
       <li>
-        <button class="header-action-btn group">
+        <button class="header-action-btn group" aria-label="Search">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="25"
@@ -30,7 +54,7 @@
 
       <!-- Authentication -->
       <li>
-        <button class="header-action-btn group">
+        <button class="header-action-btn group" aria-label="User">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="25"
@@ -48,28 +72,20 @@
           </svg>
         </button>
       </li>
-
-      <!-- Mobile Menu -->
-      <li>
-        <button class="header-action-btn group">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="25"
-            height="25"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="lucide lucide-text-align-justify-icon lucide-text-align-justify group-hover:scale-105 group-hover:text-icon-darker transition-transform duration-200 ease-in-out"
-          >
-            <path d="M3 5h18" />
-            <path d="M3 12h18" />
-            <path d="M3 19h18" />
-          </svg>
-        </button>
-      </li>
     </ul>
   </app-container>
+
+  <!--============== Overlay ==============-->
+  <div
+    class="fixed top-0 left-0 w-full h-full bg-black opacity-20 pointer-events-none z-30"
+    [class.hidden]="!isMobileMenuOpen()"
+  ></div>
+
+  <!--============== Mobile Menu ==============-->
+  <div role="menu" [aria-expanded]="isMobileMenuOpen()">
+    <app-mobile-menu
+      [isOpen]="isMobileMenuOpen()"
+      (close)="toggleMobileMenu()"
+    />
+  </div>
 </header>
