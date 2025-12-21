@@ -1,0 +1,15 @@
+<nav>
+  <ul class="hidden md:flex items-center gap-7 text-lg">
+    @for (link of desktopMenuLinks; track link.name) {
+    <li>
+      <a
+        [routerLink]="link.path"
+        routerLinkActive="text-accent font-semibold"
+        [routerLinkActiveOptions]="{exact: true}"
+        class="transition-colors duration-200 hover:text-accent"
+        >{{link.name}}</a
+      >
+    </li>
+    }
+  </ul>
+</nav>

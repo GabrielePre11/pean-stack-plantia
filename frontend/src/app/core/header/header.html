@@ -4,7 +4,7 @@
   <app-container [className]="'flex items-center justify-between py-2.5'">
     <!--============== Mobile Menu Icon ==============-->
     <button
-      class="header-action-btn group"
+      class="header-menu-action-btn group"
       aria-label="Open Mobile Menu"
       (click)="toggleMobileMenu()"
     >
@@ -29,11 +29,18 @@
     <!--============== Logo ==============-->
     <app-logo [title]="title" />
 
+    <!--============== Desktop Navigation ==============-->
+    <app-desktop-menu role="navigation" />
+
     <!--============== Header Actions ==============-->
     <ul class="flex items-center gap-1.5">
       <!-- Search -->
       <li>
-        <button class="header-action-btn group" aria-label="Search">
+        <button
+          class="header-action-btn group"
+          aria-label="Search"
+          (click)="toggleMobileSearch()"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="25"
@@ -45,6 +52,7 @@
             stroke-linecap="round"
             stroke-linejoin="round"
             class="lucide lucide-search-icon lucide-search group-hover:scale-105 group-hover:text-icon-darker transition-transform duration-200 ease-in-out"
+            [ngClass]="isMobileSearchOpen() ? 'rotate-360 stroke-accent' : ''"
           >
             <path d="m21 21-4.34-4.34" />
             <circle cx="11" cy="11" r="8" />
@@ -79,13 +87,24 @@
   <div
     class="fixed top-0 left-0 w-full h-full bg-black opacity-20 pointer-events-none z-30"
     [class.hidden]="!isMobileMenuOpen()"
+    [attr.aria-expanded]="isMobileMenuOpen()"
+    [attr.aria-hidden]="!isMobileMenuOpen()"
   ></div>
 
   <!--============== Mobile Menu ==============-->
-  <div role="menu" [aria-expanded]="isMobileMenuOpen()">
-    <app-mobile-menu
-      [isOpen]="isMobileMenuOpen()"
-      (close)="toggleMobileMenu()"
-    />
-  </div>
+  <app-mobile-menu
+    role="menu"
+    [attr.aria-expanded]="isMobileMenuOpen()"
+    [attr.aria-hidden]="!isMobileMenuOpen()"
+    [isOpen]="isMobileMenuOpen()"
+    (close)="toggleMobileMenu()"
+  />
+
+  <!--============== Mobile Search ==============-->
+  <app-mobile-search
+    role="searchbox"
+    [attr.aria-expanded]="isMobileMenuOpen()"
+    [attr.aria-hidden]="!isMobileMenuOpen()"
+    [isOpen]="isMobileSearchOpen()"
+  />
 </header>

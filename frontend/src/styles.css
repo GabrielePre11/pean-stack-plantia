@@ -55,3 +55,7 @@
 .header-action-btn {
   @apply grid place-items-center p-1.5 border border-transparent hover:border-icon-darker transition-colors duration-200 ease-in-out;
 }
+
+.header-menu-action-btn {
+  @apply grid md:hidden place-items-center p-1.5 border border-transparent hover:border-icon-darker transition-colors duration-200 ease-in-out;
+}
