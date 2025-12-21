@@ -30,14 +30,17 @@
     <app-logo [title]="title" />
 
     <!--============== Desktop Navigation ==============-->
-    <app-desktop-menu role="navigation" />
+    <app-desktop-menu role="navigation" class="hidden md:flex" />
+
+    <!--============== Desktop Search ==============-->
+    <app-desktop-search role="search" class="hidden sm:flex" />
 
     <!--============== Header Actions ==============-->
     <ul class="flex items-center gap-1.5">
       <!-- Search -->
       <li>
         <button
-          class="header-action-btn group"
+          class="header-search-action-btn group"
           aria-label="Search"
           (click)="toggleMobileSearch()"
         >

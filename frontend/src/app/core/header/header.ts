@@ -5,6 +5,7 @@ import { MobileMenu } from '../mobile-menu/mobile-menu';
 import { CommonModule } from '@angular/common';
 import { MobileSearch } from '../mobile-search/mobile-search';
 import { DesktopMenu } from '../desktop-menu/desktop-menu';
+import { DesktopSearch } from '../desktop-search/desktop-search';
 
 @Component({
   selector: 'app-header',
@@ -15,6 +16,7 @@ import { DesktopMenu } from '../desktop-menu/desktop-menu';
     CommonModule,
     MobileSearch,
     DesktopMenu,
+    DesktopSearch,
   ],
   templateUrl: './header.html',
   styleUrl: './header.css',
