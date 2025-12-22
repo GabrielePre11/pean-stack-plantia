@@ -15,7 +15,8 @@ const router = express.Router();
 router.post("/sign-up", signUp);
 router.post("/sign-in", signIn);
 router.post("/sign-out", signOut);
-router.post("/check-auth", tokenMiddleare, checkAuth);
+
+router.get("/check-auth", tokenMiddleare, checkAuth);
 
 // Dashboard Routes
 router.get("/users", tokenMiddleare, roleMiddlware, getUsers);
