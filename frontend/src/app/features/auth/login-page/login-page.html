@@ -1,0 +1,100 @@
+<section
+  class="grid grid-cols-1 place-items-center pt-20 min-h-dvh"
+  aria-label="Login Page"
+>
+  <app-container>
+    <form
+      class="flex flex-col items-center p-5 md:p-8 border border-border w-full"
+      (submit)="onSubmit($event)"
+    >
+      <!--============== Heading ==============-->
+      <h3 class="text-3xl md:text-4xl xl:text-5xl font-secondary font-medium">
+        Login
+      </h3>
+
+      <!--============== Input Fields ==============-->
+      <div class="flex flex-col gap-3 mt-5 xl:mt-8 md:w-[320px] xl:w-92.5">
+        <input
+          type="email"
+          placeholder="Email"
+          inputmode="latin"
+          pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"
+          title="Please insert a valid email."
+          [formControl]="email"
+          required
+          class="input-field"
+        />
+
+        <div class="relative flex items-center">
+          <input
+            [type]="!isPasswordVisible() ? 'password' : 'text'"
+            placeholder="Password"
+            inputmode="latin"
+            [formControl]="password"
+            required
+            class="input-password-field"
+          />
+
+          <button
+            class="grid place-items-center absolute top-1/2 -translate-y-1/2 right-4 text-accent transition-transform duration-200 ease-in-out hover:scale-105"
+            [ngClass]="isPasswordVisible() ? 'rotate-180' : ''"
+            [attr.aria-label]="isPasswordVisible() ? 'Hide password' : 'Show password'"
+            aria-live="polite"
+            (click)="togglePassword($event)"
+          >
+            @if (isPasswordVisible()) {
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="lucide lucide-eye-icon lucide-eye"
+            >
+              <path
+                d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"
+              />
+              <circle cx="12" cy="12" r="3" />
+            </svg>
+            } @else {
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="lucide lucide-eye-closed-icon lucide-eye-closed"
+            >
+              <path d="m15 18-.722-3.25" />
+              <path d="M2 8a10.645 10.645 0 0 0 20 0" />
+              <path d="m20 15-1.726-2.05" />
+              <path d="m4 15 1.726-2.05" />
+              <path d="m9 18 .722-3.25" />
+            </svg>
+            }
+          </button>
+        </div>
+      </div>
+
+      <!--============== Submit ==============-->
+      <button class="submit-btn" [disabled]="email.invalid || password.invalid">
+        Sign in
+      </button>
+
+      <!--============== Don't have an account? ==============-->
+      <small
+        class="text-sm xl:text-lg text-accent place-self-start underline mt-3 transition-colors duration-200 ease-in-out hover:text-button-active-bg"
+      >
+        <a routerLink="/register">Don't you have an account? Sign up now</a>
+      </small>
+    </form>
+  </app-container>
+</section>

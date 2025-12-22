@@ -63,3 +63,19 @@
 .header-search-action-btn {
   @apply grid sm:hidden place-items-center p-1.5 border border-transparent hover:border-icon-darker transition-colors duration-200 ease-in-out;
 }
+
+.overlay {
+  @apply fixed top-0 left-0 w-full h-full bg-black opacity-20 z-30;
+}
+
+.input-field {
+  @apply flex px-4 py-3 border border-border-medium w-full text-lg outline-0;
+}
+
+.input-password-field {
+  @apply flex px-4 py-3 border border-border-medium w-full text-lg outline-0 pr-14;
+}
+
+.submit-btn {
+  @apply inline-block mt-5 text-center text-black text-lg font-normal bg-accent px-5 py-3 w-full rounded-xs transition-colors duration-200 hover:bg-button-active-bg ease-in-out;
+}

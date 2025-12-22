@@ -29,10 +29,12 @@ export class Header {
 
   toggleMobileMenu() {
     this.isMobileMenuOpen.update((prev) => !prev);
+    this.isMobileSearchOpen.set(false);
   }
 
   toggleMobileSearch() {
     this.isMobileSearchOpen.update((prev) => !prev);
+    this.isMobileMenuOpen.set(false);
   }
 
   constructor() {
