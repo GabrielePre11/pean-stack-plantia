@@ -2,7 +2,6 @@ import { Component, effect, inject, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Header } from '@/app/core/header/header';
 import { AuthService } from '@/app/services/auth.service';
-import { User } from '@/app/models/types/auth.type';
 
 @Component({
   selector: 'app-root',
@@ -28,9 +27,9 @@ export class App {
 
   checkAuth() {
     return this.authService.checkAuth().subscribe({
-      next: (data: User) => {
+      next: () => {
         this.isLoading.set(false);
-        this.authService.setUser(data);
+        this.errorState.set(null);
       },
       error: (err) => {
         this.isLoading.set(false);

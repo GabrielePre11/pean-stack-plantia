@@ -18,7 +18,7 @@ export type User = {
 
 export type AuthResponse = { user: User };
 
-export type SignInResponse = {
+export type SignInUpResponse = {
   user: string;
-  messsage: string;
+  message: string;
 };

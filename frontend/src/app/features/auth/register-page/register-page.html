@@ -18,10 +18,11 @@
           type="text"
           placeholder="Name"
           inputmode="latin"
-          pattern="/^[a-zA-Z\s]+$/"
+          pattern="^[a-zA-Z\s]+$"
           title="Please insert a valid name."
           [formControl]="name"
           required
+          autocomplete="name"
           class="input-field"
         />
 
@@ -33,6 +34,7 @@
           title="Please insert a valid email."
           [formControl]="email"
           required
+          autocomplete="email"
           class="input-field"
         />
 
@@ -43,6 +45,7 @@
             inputmode="latin"
             [formControl]="password"
             required
+            autocomplete="new-password"
             class="input-password-field"
           />
 
@@ -95,9 +98,51 @@
         </div>
       </div>
 
+      <!--============== Errors ==============-->
+
+      <!-- Backend Error -->
+      @if(this.isSubmitted() && name.valid && email.valid && password.valid &&
+      errorState()) {
+      <small class="error-state"> {{errorState()}} </small>
+      }
+
+      <!-- Name Error -->
+      @if((name.dirty || isSubmitted()) && name.invalid) {
+      <small class="error-state"> {{getNameError()}} </small>
+      }
+
+      <!-- Email Error -->
+      @if((email.dirty || isSubmitted()) && email.invalid) {
+      <small class="error-state"> {{getEmailError()}} </small>
+      }
+
+      <!-- Password Error -->
+      @if((password.dirty || isSubmitted()) && password.invalid) {
+      <small class="error-state"> {{getPasswordError()}} </small>
+      }
+
       <!--============== Submit ==============-->
-      <button class="submit-btn" [disabled]="email.invalid || password.invalid">
-        Sign up
+      <button
+        class="submit-btn"
+        [disabled]="!name.value || !email.value || !password.value || isLoading()"
+      >
+        @if(isLoading()) {
+        <span aria-label="Loading Spinner" aria-live="polite"
+          ><svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="26"
+            height="26"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="lucide lucide-loader-circle-icon lucide-loader-circle text-bg-darker place-self-center transition-transform duration-200 ease-in-out animate-spin"
+          >
+            <path d="M21 12a9 9 0 1 1-6.219-8.56" /></svg
+        ></span>
+        } @else { Sign Up }
       </button>
 
       <!--============== Already have an account? ==============-->

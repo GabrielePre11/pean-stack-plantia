@@ -79,3 +79,7 @@
 .submit-btn {
   @apply inline-block mt-5 text-center text-black text-lg font-normal bg-accent px-5 py-3 w-full rounded-xs transition-colors duration-200 hover:bg-button-active-bg ease-in-out;
 }
+
+.error-state {
+  @apply text-sm xl:text-lg text-red-500 mt-3 place-self-start;
+}

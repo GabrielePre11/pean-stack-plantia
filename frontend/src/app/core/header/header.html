@@ -37,7 +37,7 @@
 
     <!--============== Header Actions ==============-->
     <ul class="relative flex items-center gap-1.5">
-      <!-- Search -->
+      <!--============== Search ==============-->
       <li>
         <button
           class="header-search-action-btn group"
@@ -63,12 +63,13 @@
         </button>
       </li>
 
-      <!-- Authentication -->
+      <!--============== Auth ==============-->
       <li>
         <button
           class="header-action-btn group"
           [attr.aria-label]="this.user() ? 'Authenticated User' : 'Sign In'"
         >
+          <!--============== Sign In ==============-->
           @if(!this.user()) {
           <a routerLink="/auth/login">
             <svg
@@ -88,7 +89,10 @@
               <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" />
             </svg>
           </a>
-          } @else {
+          }
+
+          <!--============== User Menu ==============-->
+          @else {
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="25"
@@ -100,6 +104,7 @@
             stroke-linecap="round"
             stroke-linejoin="round"
             class="lucide lucide-user-round-icon lucide-user-round group-hover:scale-105 group-hover:text-icon-darker transition-transform duration-200 ease-in-out"
+            (click)="toggleUserMenu()"
           >
             <circle cx="12" cy="8" r="5" />
             <path d="M20 21a8 8 0 0 0-16 0" />
@@ -109,11 +114,13 @@
       </li>
 
       <!--============== User Menu ==============-->
+      @if(user()) {
       <app-user-menu
         role="menu"
         [attr.aria-expanded]="!isUserMenuOpen()"
         [attr.aria-hidden]="!isUserMenuOpen()"
-      />
+        [isOpen]="isUserMenuOpen()"
+      />}
     </ul>
   </app-container>
 

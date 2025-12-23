@@ -49,10 +49,18 @@ export class Header {
   toggleMobileMenu() {
     this.isMobileMenuOpen.update((prev) => !prev);
     this.isMobileSearchOpen.set(false);
+    this.isUserMenuOpen.set(false);
   }
 
   toggleMobileSearch() {
     this.isMobileSearchOpen.update((prev) => !prev);
     this.isMobileMenuOpen.set(false);
+    this.isUserMenuOpen.set(false);
+  }
+
+  toggleUserMenu() {
+    this.isUserMenuOpen.update((prev) => !prev);
+    this.isMobileMenuOpen.set(false);
+    this.isMobileSearchOpen.set(false);
   }
 }
