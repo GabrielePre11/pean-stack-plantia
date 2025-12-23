@@ -36,7 +36,7 @@
     <app-desktop-search role="search" class="hidden sm:flex" />
 
     <!--============== Header Actions ==============-->
-    <ul class="flex items-center gap-1.5">
+    <ul class="relative flex items-center gap-1.5">
       <!-- Search -->
       <li>
         <button
@@ -65,7 +65,30 @@
 
       <!-- Authentication -->
       <li>
-        <button class="header-action-btn group" aria-label="User">
+        <button
+          class="header-action-btn group"
+          [attr.aria-label]="this.user() ? 'Authenticated User' : 'Sign In'"
+        >
+          @if(!this.user()) {
+          <a routerLink="/auth/login">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="25"
+              height="25"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="lucide lucide-log-in-icon lucide-log-in"
+            >
+              <path d="m10 17 5-5-5-5" />
+              <path d="M15 12H3" />
+              <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" />
+            </svg>
+          </a>
+          } @else {
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="25"
@@ -81,8 +104,16 @@
             <circle cx="12" cy="8" r="5" />
             <path d="M20 21a8 8 0 0 0-16 0" />
           </svg>
+          }
         </button>
       </li>
+
+      <!--============== User Menu ==============-->
+      <app-user-menu
+        role="menu"
+        [attr.aria-expanded]="!isUserMenuOpen()"
+        [attr.aria-hidden]="!isUserMenuOpen()"
+      />
     </ul>
   </app-container>
 

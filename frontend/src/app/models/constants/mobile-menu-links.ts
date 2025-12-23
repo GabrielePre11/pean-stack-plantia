@@ -6,5 +6,5 @@ export const MOBILE_MENU_LINKS: { name: string; path: string }[] = [
   { name: 'Wishlist', path: '/wishlist' },
   { name: 'Cart', path: '/cart' },
   { name: 'Need help?', path: '/help' },
-  { name: 'Register / Login', path: '/login' },
+  { name: 'Register / Login', path: '/auth/login' },
 ];

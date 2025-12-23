@@ -1,4 +1,6 @@
 import { Routes } from '@angular/router';
+import { authGuard } from '@/app/guards/auth-guard';
+import { noAuthGuard } from '@/app/guards/no-auth-guard';
 
 export const routes: Routes = [
   //============== Main ==============//
@@ -7,20 +9,26 @@ export const routes: Routes = [
     loadComponent: () => import('@/app/features/home/home').then((m) => m.Home),
   },
 
-  //============== Login & Register [Protected] ==============//
+  //============== Auth Routes [Protected by noAuthGuard] ==============//
   {
-    path: 'login',
-    loadComponent: () =>
-      import('@/app/features/auth/login-page/login-page').then(
-        (m) => m.LoginPage
-      ),
-  },
-
-  {
-    path: 'register',
-    loadComponent: () =>
-      import('@/app/features/auth/register-page/register-page').then(
-        (m) => m.RegisterPage
-      ),
+    path: 'auth',
+    canActivate: [noAuthGuard],
+    canActivateChild: [noAuthGuard],
+    children: [
+      {
+        path: 'login',
+        loadComponent: () =>
+          import('@/app/features/auth/login-page/login-page').then(
+            (m) => m.LoginPage
+          ),
+      },
+      {
+        path: 'register',
+        loadComponent: () =>
+          import('@/app/features/auth/register-page/register-page').then(
+            (m) => m.RegisterPage
+          ),
+      },
+    ],
   },
 ];

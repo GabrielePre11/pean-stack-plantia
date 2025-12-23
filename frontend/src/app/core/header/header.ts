@@ -1,11 +1,14 @@
-import { Component, effect, signal } from '@angular/core';
+import { Component, effect, inject, signal } from '@angular/core';
 import { Container } from '@/app/layout/container/container';
 import { Logo } from '@/app/shared/logo/logo';
-import { MobileMenu } from '../mobile-menu/mobile-menu';
+import { MobileMenu } from '@/app/core/mobile-menu/mobile-menu';
 import { CommonModule } from '@angular/common';
-import { MobileSearch } from '../mobile-search/mobile-search';
-import { DesktopMenu } from '../desktop-menu/desktop-menu';
-import { DesktopSearch } from '../desktop-search/desktop-search';
+import { MobileSearch } from '@/app/core/mobile-search/mobile-search';
+import { DesktopMenu } from '@/app/core/desktop-menu/desktop-menu';
+import { DesktopSearch } from '@/app/core/desktop-search/desktop-search';
+import { AuthService } from '@/app/services/auth.service';
+import { RouterModule } from '@angular/router';
+import { UserMenu } from '../user-menu/user-menu';
 
 @Component({
   selector: 'app-header',
@@ -17,25 +20,21 @@ import { DesktopSearch } from '../desktop-search/desktop-search';
     MobileSearch,
     DesktopMenu,
     DesktopSearch,
+    RouterModule,
+    UserMenu,
   ],
   templateUrl: './header.html',
   styleUrl: './header.css',
 })
 export class Header {
+  private authService = inject(AuthService);
   readonly title = 'Plantia';
+
+  user = this.authService.user;
 
   isMobileMenuOpen = signal<boolean>(false);
   isMobileSearchOpen = signal<boolean>(false);
-
-  toggleMobileMenu() {
-    this.isMobileMenuOpen.update((prev) => !prev);
-    this.isMobileSearchOpen.set(false);
-  }
-
-  toggleMobileSearch() {
-    this.isMobileSearchOpen.update((prev) => !prev);
-    this.isMobileMenuOpen.set(false);
-  }
+  isUserMenuOpen = signal<boolean>(false);
 
   constructor() {
     effect(() => {
@@ -45,5 +44,15 @@ export class Header {
         document.body.classList.remove('overflow-hidden');
       }
     });
+  }
+
+  toggleMobileMenu() {
+    this.isMobileMenuOpen.update((prev) => !prev);
+    this.isMobileSearchOpen.set(false);
+  }
+
+  toggleMobileSearch() {
+    this.isMobileSearchOpen.update((prev) => !prev);
+    this.isMobileMenuOpen.set(false);
   }
 }

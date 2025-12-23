@@ -1,0 +1,26 @@
+<div class="absolute top-14 right-0 min-w-32.5 bg-amber-50 rounded-sm z-40">
+  <ul
+    class="flex flex-col gap-2 w-full p-3 text-lg text-bg-contrast font-normal"
+  >
+    <li
+      class="py-1 border-b border-border-darker transition-colors duration-200 ease-in-out hover:text-background-meta"
+    >
+      Logout
+    </li>
+    @if (this.user()?.role === "ADMIN") {
+    <li
+      class="py-1 border-b border-border-darker transition-colors duration-200 ease-in-out hover:text-background-meta"
+    >
+      <a routerLink="/dashboard">Dashboard</a>
+    </li>
+    }
+  </ul>
+
+  <div class="flex bg-bg px-3 py-2 text-center rounded-b-sm">
+    <h4
+      class="text-accent font-secondary text-xl w-full rounded-b-sm line-clamp-1 truncate"
+    >
+      {{`Hi, ${this.user()?.name}`}}
+    </h4>
+  </div>
+</div>
