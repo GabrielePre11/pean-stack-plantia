@@ -11,7 +11,6 @@ export class PlantService {
   constructor(private httpClient: HttpClient) {}
 
   /**
-   * TODO: Type the responses
    * TODO: Add filters on getPlants() method
    * TODO: Create Dashboard Functions
    */
