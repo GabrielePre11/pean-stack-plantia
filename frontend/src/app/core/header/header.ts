@@ -35,6 +35,8 @@ export class Header {
   isMobileMenuOpen = signal<boolean>(false);
   isMobileSearchOpen = signal<boolean>(false);
   isUserMenuOpen = signal<boolean>(false);
+  isHeaderScrolled = signal<boolean>(false);
+  scrollY = signal<number>(window.scrollY);
 
   constructor() {
     effect(() => {
@@ -43,6 +45,15 @@ export class Header {
       } else {
         document.body.classList.remove('overflow-hidden');
       }
+
+      window.addEventListener('scroll', () => {
+        this.scrollY.set(window.scrollY);
+        this.isHeaderScrolled.set(window.scrollY > 0);
+      });
+
+      return () => {
+        window.removeEventListener('scroll', () => {});
+      };
     });
   }
 

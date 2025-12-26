@@ -59,7 +59,7 @@ export const getPlants = async (
     const plants = await prisma.plant.findMany({
       where,
       orderBy,
-      include: { category: true },
+      include: { category: true, reviews: true },
       skip,
       take,
     });

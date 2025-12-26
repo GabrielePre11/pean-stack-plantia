@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import { HeroSection } from './components/hero-section/hero-section';
+import { HeroSection } from '@/app/features/home/components/hero-section/hero-section';
+import { HomePlants } from '@/app/features/home/components/home-plants/home-plants';
 
 @Component({
   selector: 'app-home',
-  imports: [HeroSection],
+  imports: [HeroSection, HomePlants],
   templateUrl: './home.html',
   styleUrl: './home.css',
 })

@@ -52,6 +52,15 @@
   }
 }
 
+.scrollbar-hidden {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.scrollbar-hidden::-webkit-scrollbar {
+  display: none;
+}
+
 .header-action-btn {
   @apply grid place-items-center p-1.5 border border-transparent hover:border-icon-darker transition-colors duration-200 ease-in-out;
 }
@@ -82,4 +91,8 @@
 
 .error-state {
   @apply text-sm xl:text-lg text-red-500 mt-3 place-self-start;
+}
+
+.slider-arrow {
+  @apply grid place-items-center p-2 bg-bg text-text rounded-xs transition-colors duration-200 ease-in-out hover:bg-bg-darker;
 }
