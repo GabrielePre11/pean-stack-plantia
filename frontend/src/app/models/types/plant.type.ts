@@ -1,8 +1,4 @@
-export interface Category {
-  id: number;
-  name: string;
-  slug: string;
-}
+import { Category } from '@/app/models/types/category.type';
 
 export type Review = {
   comment?: string;

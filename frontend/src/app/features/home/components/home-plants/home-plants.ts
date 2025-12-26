@@ -35,7 +35,6 @@ export class HomePlants {
         next: (data: PlantResponse) => {
           this.isLoading.set(false);
           this.monthlyInspirationsPlants.set(data.plants);
-          console.log(data);
         },
         error: (err) => {
           this.isLoading.set(false);

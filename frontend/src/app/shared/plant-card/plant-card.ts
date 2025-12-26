@@ -10,7 +10,7 @@ import { RouterModule } from '@angular/router';
   styleUrl: './plant-card.css',
 })
 export class PlantCard {
-  plant = input.required<Plant>();
+  readonly plant = input.required<Plant>();
 
   reviews = Array.from({ length: 5 });
 }

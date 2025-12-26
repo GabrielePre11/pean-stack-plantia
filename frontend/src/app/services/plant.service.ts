@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { PlantResponse } from '../models/types/plant.type';
+import { Plant, PlantResponse } from '@/app/models/types/plant.type';
 
 @Injectable({
   providedIn: 'root',
@@ -20,6 +20,6 @@ export class PlantService {
   }
 
   getPlant(slug: string) {
-    return this.httpClient.get(`${this.serverUrl}/${slug}`);
+    return this.httpClient.get<Plant>(`${this.serverUrl}/${slug}`);
   }
 }
