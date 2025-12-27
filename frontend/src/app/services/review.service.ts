@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, signal } from '@angular/core';
+import { HomeReviewsResponse } from '../models/types/review.type';
 
 @Injectable({
   providedIn: 'root',
@@ -10,6 +11,6 @@ export class ReviewService {
   constructor(private httpClient: HttpClient) {}
 
   getHomeReviews() {
-    return this.httpClient.get(`${this.serverUrl}`);
+    return this.httpClient.get<HomeReviewsResponse>(`${this.serverUrl}`);
   }
 }
