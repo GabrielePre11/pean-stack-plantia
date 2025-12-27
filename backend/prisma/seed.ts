@@ -8,6 +8,7 @@ import Decimal from "decimal.js";
 
 import { CATEGORIES } from "../src/constants/categories";
 import { buildPlantDescription } from "../src/utils/plantDescription";
+import { reviewTexts } from "../src/constants/reviews";
 
 async function seedCategories() {
   const existingCategories = await prisma.category.findMany();
@@ -98,11 +99,51 @@ async function seedPlants() {
   console.log("✅ Plants seeded successfully.");
 }
 
+// Helper
+function getRandomRating() {
+  const ratings = [3, 4, 4, 5, 5];
+  return ratings[Math.floor(Math.random() * ratings.length)];
+}
+
+async function seedReviews() {
+  const user = await prisma.user.findFirst();
+  if (!user) throw new Error("No user found");
+
+  const plants = await prisma.plant.findMany();
+
+  for (const plant of plants) {
+    const reviewsCount = Math.floor(Math.random() * 3) + 1;
+
+    for (let i = 0; i < reviewsCount; i++) {
+      await prisma.review.upsert({
+        where: {
+          userId_plantId: {
+            userId: user.id,
+            plantId: plant.id,
+          },
+        },
+        update: {
+          rating: getRandomRating(),
+          comment: reviewTexts[Math.floor(Math.random() * reviewTexts.length)],
+        },
+        create: {
+          rating: getRandomRating(),
+          comment: reviewTexts[Math.floor(Math.random() * reviewTexts.length)],
+          userId: user.id,
+          plantId: plant.id,
+        },
+      });
+    }
+  }
+  console.info("⭐ Reviews seeded successfully");
+}
+
 async function main() {
   // @ Categories must be seeded first because they are required for plants (Foreign Key),
   // @ that's why in this case it's not possible to use Promise.all.
-  await seedCategories();
-  await seedPlants();
+  // await seedCategories();
+  // await seedPlants();
+  await seedReviews();
 }
 
 main()

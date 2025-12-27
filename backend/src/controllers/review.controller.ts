@@ -2,6 +2,28 @@ import { prisma } from "@/lib/prisma";
 import { ReviewBody } from "@/types/review.type";
 import { NextFunction, Request, Response } from "express";
 
+export const getHomeReviews = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const reviews = await prisma.review.findMany({
+      include: { user: { select: { name: true } } },
+    });
+
+    if (reviews.length === 0) {
+      return res
+        .status(200)
+        .json({ reviews: [], message: "There are no reviews yet." });
+    }
+
+    return res.status(200).json({ reviews });
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const getReviews = async (
   req: Request<{ id: string }, {}, {}>,
   res: Response,
