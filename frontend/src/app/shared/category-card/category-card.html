@@ -1,0 +1,30 @@
+<li>
+  <!--============== Category Image ==============-->
+  <figure
+    [routerLink]="['/categories', category().slug]"
+    class="relative overflow-hidden rounded-xs text-center cursor-pointer"
+  >
+    <img
+      [src]="POPULAR_CATEGORIES_COVERS[category().slug]"
+      [alt]="category().name + ' cover'"
+      loading="lazy"
+      class="rounded-xs object-cover size-full object-center transition-transform duration-200 ease-in-out hover:opacity-90"
+    />
+
+    <!--============== Category Name ==============-->
+    <h3
+      class="absolute top-2 left-2 text-4xl lg:text-5xl font-secondary text-bg font-semibold text-shadow-2xs text-shadow-accent"
+    >
+      {{category().name}}
+    </h3>
+
+    <!--============== See All Button ==============-->
+    <div class="absolute left-0 bottom-3 z-30 w-full px-2">
+      <button
+        class="inline-flex w-full items-center justify-center rounded-full py-2 bg-bg text-text transition-colors duration-200 ease-in-out hover:bg-accent hover:text-bg-darker hover:font-medium"
+      >
+        See All
+      </button>
+    </div>
+  </figure>
+</li>
