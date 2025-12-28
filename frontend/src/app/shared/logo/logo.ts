@@ -10,4 +10,5 @@ import { RouterModule } from '@angular/router';
 })
 export class Logo {
   title = input<string>();
+  className = input<string>('');
 }

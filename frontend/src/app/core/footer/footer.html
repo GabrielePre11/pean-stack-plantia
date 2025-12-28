@@ -1,0 +1,64 @@
+<footer class="flex flex-col w-full bg-bg text-text py-10 lg:py-14 z-50">
+  <app-container>
+    <!--============== Main Footer ==============-->
+    <div class="flex flex-col sm:flex-row md:justify-between gap-5 md:gap-10">
+      <!--============== Logo & Description ==============-->
+      <div class="flex flex-col gap-3">
+        <!-- Logo -->
+        <app-logo [title]="title" />
+
+        <!-- Description -->
+        <p class="sm:text-lg text-dark-40 max-w-xs">
+          Plantia is a plant care platform that helps you find the right plant
+          for your space.
+        </p>
+      </div>
+
+      <!--============== Footer Links ==============-->
+      <ul class="grid grid-cols-2 sm:grid-cols-3 gap-5 mt-8 sm:mt-0">
+        @for (link of footerLinks; track link.title) {
+        <li class="flex flex-col gap-2">
+          <!-- Footer Link Title -->
+          <h3 class="text-lg xl:text-xl font-semibold text-dark-10">
+            {{ link.title }}
+          </h3>
+
+          <!-- Footer Links -->
+          <ul class="flex flex-col gap-2">
+            @for (footerLink of link.links; track footerLink.name) {
+            <li>
+              <a
+                [routerLink]="footerLink.path"
+                class="text-dark-40 transition-all hover:underline duration-300 ease-in-out md:text-lg"
+              >
+                {{ footerLink.name }}
+              </a>
+            </li>
+            }
+          </ul>
+        </li>
+        }
+      </ul>
+    </div>
+
+    <!--============== Footer Bottom ==============-->
+    <div
+      class="flex flex-col sm:flex-row sm:justify-between gap-2 border-t-2 border-dark-50 py-2.5 w-full items-center sm:items-baseline mt-5 lg:mt-7 xl:mt-8"
+    >
+      <p class="text-primary-50 xl:text-lg">
+        &copy; {{ currentYear }} <em class="text-mustard">{{title}}</em>. All
+        rights reserved.
+      </p>
+
+      <span class="xl:text-lg"
+        >Developed by
+        <a
+          href="https://github.com/GabrielePre11"
+          target="_blank"
+          class="hover:underline xl:text-lg text-mustard transition-colors duration-200 ease-in-out hover:text-mustard/90"
+          >Gabriele Prestano</a
+        ></span
+      >
+    </div>
+  </app-container>
+</footer>
