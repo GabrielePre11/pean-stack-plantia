@@ -1,13 +1,13 @@
-<section class="py-10 bg-[#debe48] text-white">
+<section class="grid grid-cols-1 py-10 bg-mustard text-white">
   <app-container>
     <!--============== Heading ==============-->
     <div class="flex flex-col items-center justify-center gap-2">
-      <h4 class="text-white text-sm font-medium">
+      <h4 class="text-white text-sm lg:text-lg font-medium">
         {{ reviewsAverage().toFixed(1)}} out of 5 stars, based on {{
         reviews().length }} reviews
       </h4>
 
-      <!-- Stars -->
+      <!--============== Stars ==============-->
       <ul class="flex items-center gap-x-1.5">
         @for (star of stars; track $index) {
         <li>
@@ -32,4 +32,79 @@
       </ul>
     </div>
   </app-container>
+
+  <div class="relative flex flex-col">
+    <!--============== Slider ==============-->
+    <ul
+      class="relative flex items-center py-10 w-full text-center scroll-smooth overflow-x-auto snap-x snap-mandatory scrollbar-hidden"
+      aria-orientation="horizontal"
+      #reviewsSliderRef
+    >
+      @for (review of reviews().slice(0, 10); track review.id) {
+      <!--============== Review Slide ==============-->
+      <li
+        class="flex flex-col items-center justify-center gap-2.5 md:gap-3 lg:gap-5 min-h-62.5 shrink-0 w-full"
+      >
+        <!--============== Review Comment ==============-->
+        <blockquote class="text-4xl lg:text-5xl xl:text-6xl max-w-2xl">
+          {{review.comment}}
+        </blockquote>
+
+        <!--============== Review Author ==============-->
+        <span class="text-2xl md:text-3xl font-secondary font-medium"
+          >— {{review.user.name}}</span
+        >
+      </li>
+      }
+    </ul>
+
+    <!--============== Slider Arrows ==============-->
+    <div
+      class="absolute flex items-center justify-between top-[50%] -translate-y-[50%] w-full px-1.5 lg:px-4"
+    >
+      <button
+        class="grid place-items-center p-1.5 bg-transparent border border-border-medium rounded-xs backdrop-blur-sm"
+        aria-label="Scroll to Left"
+        (click)="prevSlide()"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="25"
+          height="25"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="lucide lucide-arrow-left-icon lucide-arrow-left"
+        >
+          <path d="m12 19-7-7 7-7" />
+          <path d="M19 12H5" />
+        </svg>
+      </button>
+
+      <button
+        class="grid place-items-center p-1.5 bg-transparent border border-border-medium rounded-xs backdrop-blur-sm"
+        aria-label="Scroll to Right"
+        (click)="nextSlide()"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="25"
+          height="25"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="lucide lucide-arrow-right-icon lucide-arrow-right"
+        >
+          <path d="M5 12h14" />
+          <path d="m12 5 7 7-7 7" />
+        </svg>
+      </button>
+    </div>
+  </div>
 </section>

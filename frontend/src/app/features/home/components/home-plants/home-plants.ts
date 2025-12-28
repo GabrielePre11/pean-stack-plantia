@@ -22,7 +22,7 @@ export class HomePlants {
 
   isLoading = signal<boolean>(false);
   errorState = signal<string | null>(null);
-  monthlyInspirationsPlants = signal<Plant[] | null>(null);
+  monthlyInspirationsPlants = signal<Plant[]>([]);
 
   sliderRef = viewChild<ElementRef<HTMLUListElement>>('plantsSliderRef');
 

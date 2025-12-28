@@ -15,7 +15,7 @@ export class PopularCategories {
 
   isLoading = signal<boolean>(false);
   errorState = signal<string | null>(null);
-  categories = signal<Category[] | null>(null);
+  categories = signal<Category[]>([]);
 
   popularCategories = ['ficus', 'palm', 'fern', 'begonia'];
 
