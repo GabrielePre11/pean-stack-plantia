@@ -63,7 +63,7 @@
       class="absolute flex items-center justify-between top-[50%] -translate-y-[50%] w-full px-1.5 lg:px-4"
     >
       <button
-        class="grid place-items-center p-1.5 bg-transparent border border-border-medium rounded-xs backdrop-blur-sm"
+        class="review-slider-arrow group"
         aria-label="Scroll to Left"
         (click)="prevSlide()"
       >
@@ -77,7 +77,7 @@
           stroke-width="2"
           stroke-linecap="round"
           stroke-linejoin="round"
-          class="lucide lucide-arrow-left-icon lucide-arrow-left"
+          class="lucide lucide-arrow-left-icon lucide-arrow-left lg:size-8 xl:size-9 transition-transform group-hover:-translate-x-1.5 duration-200 ease-in-out"
         >
           <path d="m12 19-7-7 7-7" />
           <path d="M19 12H5" />
@@ -85,7 +85,7 @@
       </button>
 
       <button
-        class="grid place-items-center p-1.5 bg-transparent border border-border-medium rounded-xs backdrop-blur-sm"
+        class="review-slider-arrow group"
         aria-label="Scroll to Right"
         (click)="nextSlide()"
       >
@@ -99,7 +99,7 @@
           stroke-width="2"
           stroke-linecap="round"
           stroke-linejoin="round"
-          class="lucide lucide-arrow-right-icon lucide-arrow-right"
+          class="lucide lucide-arrow-right-icon lucide-arrow-right lg:size-8 xl:size-9 transition-transform group-hover:translate-x-1.5 duration-200 ease-in-out"
         >
           <path d="M5 12h14" />
           <path d="m12 5 7 7-7 7" />

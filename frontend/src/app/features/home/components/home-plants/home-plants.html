@@ -24,11 +24,11 @@
 
     <!--============== Monthly Inspirations Plants ==============-->
     <ul
-      class="flex items-center xl:justify-center mt-10 md:mt-12 xl:mt-16 w-full gap-5 lg:gap-8 overflow-x-scroll scroll-smooth snap-x snap-mandatory scrollbar-hidden"
+      class="flex items-center xl:justify-center mt-10 md:mt-12 xl:mt-16 w-full gap-5 lg:gap-8 xl:gap-10 overflow-x-scroll scroll-smooth snap-x snap-mandatory scrollbar-hidden"
       aria-orientation="horizontal"
       #plantsSliderRef
     >
-      @for (plant of monthlyInspirationsPlants()?.slice(0, 4); track plant.id) {
+      @for (plant of monthlyInspirationsPlants().slice(0, 4); track plant.id) {
       <app-plant-card [plant]="plant" />
       }
     </ul>

@@ -112,3 +112,7 @@
 .slider-arrow {
   @apply grid place-items-center p-2 bg-bg text-text rounded-xs transition-colors duration-200 ease-in-out hover:bg-bg-darker;
 }
+
+.review-slider-arrow {
+  @apply grid place-items-center p-1.5 bg-transparent border border-border-medium rounded-xs backdrop-blur-sm;
+}
