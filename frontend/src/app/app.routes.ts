@@ -9,6 +9,11 @@ export const routes: Routes = [
     loadComponent: () => import('@/app/features/home/home').then((m) => m.Home),
   },
 
+  {
+    path: 'shop',
+    loadComponent: () => import('@/app/features/shop/shop').then((m) => m.Shop),
+  },
+
   //============== Auth Routes [Protected by noAuthGuard] ==============//
   {
     path: 'auth',

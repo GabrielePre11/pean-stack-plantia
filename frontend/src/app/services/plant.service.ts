@@ -1,6 +1,7 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Plant, PlantResponse } from '@/app/models/types/plant.type';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -10,16 +11,18 @@ export class PlantService {
 
   constructor(private httpClient: HttpClient) {}
 
-  /**
-   * TODO: Add filters on getPlants() method
-   * TODO: Create Dashboard Functions
-   */
+  getPlants(page?: number): Observable<PlantResponse> {
+    let httpParams = new HttpParams();
 
-  getPlants() {
-    return this.httpClient.get<PlantResponse>(`${this.serverUrl}`);
+    return this.httpClient.get<PlantResponse>(
+      `${this.serverUrl}?page=${page}`,
+      {
+        params: httpParams,
+      }
+    );
   }
 
-  getPlant(slug: string) {
+  getPlant(slug: string): Observable<Plant> {
     return this.httpClient.get<Plant>(`${this.serverUrl}/${slug}`);
   }
 }

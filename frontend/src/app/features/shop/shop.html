@@ -1,0 +1,97 @@
+<section class="bg-text" aria-label="Shop Section">
+  <!--============== Heading ==============-->
+  <div class="text-text bg-bg pt-28 pb-14">
+    <app-container [className]="'flex flex-col gap-3.5 '">
+      <h3 class="text-3xl lg:text-4xl font-medium">All plants</h3>
+      <h5 class="text-2xl lg:text-3xl font-medium font-secondary text-mustard">
+        Find your favorite plant
+      </h5>
+      <p class="max-w-md xl:max-w-lg text-sm sm:text-lg">
+        This is where you'll find&nbsp;<em>all</em>
+        our plants in one place — from rare finds to easy-care classics. Browse
+        the full collection, use the filters to narrow things down, or simply
+        scroll and let something unexpected catch your eye. Who knows what might
+        end up in your cart?
+      </p>
+    </app-container>
+  </div>
+
+  <app-container>
+    <!--============== Plants ==============-->
+    <ul
+      class="grid place-items-center grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10 lg:gap-12 py-10"
+    >
+      <!--============== Loading State ==============-->
+      @if (!errorState() && isLoading()) { @for (skeleton of plantsLimit; track
+      $index) {
+      <app-card-skeleton-card />
+      } }
+
+      <!--============== Plants ==============-->
+      @if (!errorState() && !isLoading() && plants().length > 0) { @for (plant
+      of plants(); track plant.id) {
+      <app-plant-card [plant]="plant" />
+      } }
+    </ul>
+
+    <!--============== Pagination ==============-->
+    <div class="flex items-center justify-between pt-5 pb-10">
+      <button
+        class="grid place-items-center bg-mustard p-1.5 rounded-xs text-text transition-colors duration-200 ease-in-out hover:bg-mustard/90"
+        aria-label="Previous Page"
+        (click)="goToPrevPage()"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="28"
+          height="28"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="lucide lucide-arrow-left-icon lucide-arrow-left"
+        >
+          <path d="m12 19-7-7 7-7" />
+          <path d="M19 12H5" />
+        </svg>
+      </button>
+
+      <!-- Current Page / Total Pages -->
+      <div class="flex items-center gap-2.5 md:gap-3">
+        <span
+          class="grid place-items-center text-2xl px-3 py-0.5 rounded-xs border border-border-medium text-bg font-medium"
+          >{{ currentPage() }}</span
+        >
+        <small class="text-lg text-bg-darker">of</small>
+        <span
+          class="grid place-items-center text-2xl px-3 py-0.5 rounded-xs border border-border-medium text-bg font-medium"
+          >{{ totalPages() }}</span
+        >
+      </div>
+
+      <button
+        class="grid place-items-center bg-mustard p-1.5 rounded-xs text-text transition-colors duration-200 ease-in-out hover:bg-mustard/90"
+        aria-label="Next Page"
+        (click)="goToNextPage()"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="28"
+          height="28"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="lucide lucide-arrow-right-icon lucide-arrow-right"
+        >
+          <path d="M5 12h14" />
+          <path d="m12 5 7 7-7 7" />
+        </svg>
+      </button>
+    </div>
+  </app-container>
+</section>

@@ -38,6 +38,8 @@
     <ul
       class="relative flex items-center py-10 w-full text-center scroll-smooth overflow-x-auto snap-x snap-mandatory scrollbar-hidden"
       aria-orientation="horizontal"
+      aria-live="polite"
+      role="slider"
       #reviewsSliderRef
     >
       @for (review of reviews().slice(0, 10); track review.id) {
