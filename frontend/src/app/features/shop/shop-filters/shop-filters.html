@@ -1,0 +1,32 @@
+<ul
+  role="dialog"
+  aria-modal="true"
+  aria-live="polite"
+  class="absolute top-16 left-0 flex flex-col gap-3.5 bg-text border border-border-darkest text-bg p-5 rounded-md z-30 overflow-y-scroll max-h-75 lg:min-w-62.5 shadow-sm shadow-text-darker transition-transform duration-200 ease-in-out"
+  [ngClass]="filtersOpen() ? 'scale-105 opacity-100 visible' : 'scale-0 pointer-events-none opacity-0 invisible'"
+>
+  @for (filter of plantsFilters; track filter.name) {
+  <li class="flex flex-col gap-2 w-full py-2 border-b border-b-border-darker">
+    <!--============= Label ==============-->
+    <label [for]="filter.value" class="font-medium text-lg uppercase"
+      >{{filter.name}}</label
+    >
+
+    <!--============= Select ==============-->
+    <select
+      [name]="filter.value + '_select'"
+      [id]="filter.value"
+      (change)="changeFilters(filter.value, $event)"
+      (change)="closeFilters()"
+      class="w-full text-lg outline-0"
+    >
+      <option value="">All</option>
+
+      <!--============= Options ==============-->
+      @for (option of filter.options; track option.value) {
+      <option [value]="option.value">{{option.name}}</option>
+      }
+    </select>
+  </li>
+  }
+</ul>

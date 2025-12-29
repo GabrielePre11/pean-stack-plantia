@@ -4,10 +4,13 @@ import { PlantService } from '@/app/services/plant.service';
 import { Plant, PlantResponse } from '@/app/models/types/plant.type';
 import { CardSkeletonCard } from '@/app/shared/card-skeleton-card/card-skeleton-card';
 import { PlantCard } from '@/app/shared/plant-card/plant-card';
+import { FiltersType } from '@/app/models/types/filters.type';
+import { ShopFilters } from './shop-filters/shop-filters';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-shop',
-  imports: [Container, CardSkeletonCard, PlantCard],
+  imports: [Container, CardSkeletonCard, PlantCard, ShopFilters, CommonModule],
   templateUrl: './shop.html',
   styleUrl: './shop.css',
 })
@@ -16,6 +19,7 @@ export class Shop {
 
   isLoading = signal(false);
   errorState = signal<string | null>(null);
+  filtersOpen = signal<boolean>(false);
   plants = signal<Plant[]>([]);
 
   currentPage = signal<number>(1);
@@ -23,6 +27,14 @@ export class Shop {
   totalPages = signal<number>(0);
 
   plantsLimit = Array.from({ length: 10 });
+
+  selectedFilters = signal<FiltersType>({
+    category: null,
+    sort: null,
+    careLevel: null,
+    light: null,
+    water: null,
+  });
 
   goToPrevPage() {
     if (this.currentPage() > 1) this.currentPage.update((prev) => prev - 1);
@@ -33,27 +45,39 @@ export class Shop {
       this.currentPage.update((prev) => prev + 1);
   }
 
+  toggleFilters() {
+    this.filtersOpen.update((prev) => !prev);
+  }
+
+  updateFilters(key: string, value: string | null) {
+    this.selectedFilters.update((prev) => ({
+      ...prev,
+      [key]: value,
+    }));
+  }
+
   constructor() {
     effect(() => {
       this.isLoading.set(true);
       this.errorState.set(null);
 
-      this.plantService.getPlants(this.currentPage()).subscribe({
-        next: (data: PlantResponse) => {
-          if (Array.isArray(data.plants)) {
-            console.log(data);
+      this.plantService
+        .getPlants(this.currentPage(), this.selectedFilters())
+        .subscribe({
+          next: (data: PlantResponse) => {
+            if (Array.isArray(data.plants)) {
+              this.isLoading.set(false);
+              this.errorState.set(null);
+              this.totalPlants.set(data.count);
+              this.totalPages.set(Math.ceil(data.count / data.limit));
+              this.plants.set(data.plants);
+            }
+          },
+          error: (err) => {
             this.isLoading.set(false);
-            this.errorState.set(null);
-            this.totalPlants.set(data.count);
-            this.totalPages.set(Math.ceil(data.count / data.limit));
-            this.plants.set(data.plants);
-          }
-        },
-        error: (err) => {
-          this.isLoading.set(false);
-          this.errorState.set(err?.error?.message || 'Something went wrong');
-        },
-      });
+            this.errorState.set(err?.error?.message || 'Something went wrong');
+          },
+        });
     });
   }
 }

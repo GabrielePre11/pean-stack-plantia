@@ -17,9 +17,50 @@
   </div>
 
   <app-container>
+    <!--============== Filters & Informations ==============-->
+    <div class="relative flex items-center justify-between mt-8">
+      <button
+        class="inline-flex items-center px-4 py-2 gap-2 text-text text-lg bg-mustard rounded-xs transition-colors duration-200 ease-in-out hover:bg-mustard/90 group"
+        [attr.aria-label]="filtersOpen() ? 'Close Filters' : 'Open Filters'"
+        (click)="toggleFilters()"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="28"
+          height="28"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="lucide lucide-sliders-horizontal-icon lucide-sliders-horizontal transition-transform duration-300 ease-in-out group-hover:rotate-180"
+          [ngClass]="filtersOpen() ? 'rotate-180' : ''"
+        >
+          <path d="M10 5H3" />
+          <path d="M12 19H3" />
+          <path d="M14 3v4" />
+          <path d="M16 17v4" />
+          <path d="M21 12h-9" />
+          <path d="M21 19h-5" />
+          <path d="M21 5h-7" />
+          <path d="M8 10v4" />
+          <path d="M8 12H3" />
+        </svg>
+
+        Filters
+      </button>
+
+      <app-shop-filters
+        [filtersOpen]="filtersOpen()"
+        (onChangeFilters)="updateFilters($event.type, $event.value)"
+        (onCloseFilters)="toggleFilters()"
+      />
+    </div>
+
     <!--============== Plants ==============-->
     <ul
-      class="grid place-items-center grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10 lg:gap-12 py-10"
+      class="grid place-items-center grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10 lg:gap-12 py-8"
     >
       <!--============== Loading State ==============-->
       @if (!errorState() && isLoading()) { @for (skeleton of plantsLimit; track
