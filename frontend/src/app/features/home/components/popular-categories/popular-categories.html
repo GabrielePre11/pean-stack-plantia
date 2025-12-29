@@ -11,9 +11,17 @@
     <ul
       class="grid items-center gap-10 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 mt-5 md:mt-8 lg:mt-10 xl:mt-12"
     >
-      @for (category of categories(); track category.id) {
+      <!--============== Loading State ==============-->
+      @if (!errorState() && isLoading()) { @for (skeleton of
+      popularCategoriesLimit; track $index) {
+      <app-category-skeleton-card />
+      } }
+
+      <!--============== Popular Categories ==============-->
+      @if (!errorState() && !isLoading() && categories().length > 0) { @for
+      (category of categories(); track category.id) {
       <app-category-card [category]="category" />
-      }
+      } }
     </ul>
   </app-container>
 </section>

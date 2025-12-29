@@ -10,10 +10,11 @@ import { Container } from '@/app/layout/container/container';
 import { PlantService } from '@/app/services/plant.service';
 import { Plant, PlantResponse } from '@/app/models/types/plant.type';
 import { PlantCard } from '@/app/shared/plant-card/plant-card';
+import { CardSkeletonCard } from '@/app/shared/card-skeleton-card/card-skeleton-card';
 
 @Component({
   selector: 'app-home-plants',
-  imports: [Container, PlantCard],
+  imports: [Container, PlantCard, CardSkeletonCard],
   templateUrl: './home-plants.html',
   styleUrl: './home-plants.css',
 })
@@ -23,6 +24,8 @@ export class HomePlants {
   isLoading = signal<boolean>(false);
   errorState = signal<string | null>(null);
   monthlyInspirationsPlants = signal<Plant[]>([]);
+
+  plantsLimit = Array.from({ length: 4 });
 
   sliderRef = viewChild<ElementRef<HTMLUListElement>>('plantsSliderRef');
 
@@ -34,7 +37,9 @@ export class HomePlants {
       this.plantsService.getPlants().subscribe({
         next: (data: PlantResponse) => {
           this.isLoading.set(false);
-          this.monthlyInspirationsPlants.set(data.plants);
+          this.monthlyInspirationsPlants.set(
+            data.plants.slice(0, this.plantsLimit.length)
+          );
         },
         error: (err) => {
           this.isLoading.set(false);

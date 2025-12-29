@@ -3,10 +3,11 @@ import { Container } from '@/app/layout/container/container';
 import { CategoryService } from '@/app/services/category.service';
 import { Category, CategoryResponse } from '@/app/models/types/category.type';
 import { CategoryCard } from '@/app/shared/category-card/category-card';
+import { CategorySkeletonCard } from '@/app/shared/category-skeleton-card/category-skeleton-card';
 
 @Component({
   selector: 'app-popular-categories',
-  imports: [Container, CategoryCard],
+  imports: [Container, CategoryCard, CategorySkeletonCard],
   templateUrl: './popular-categories.html',
   styleUrl: './popular-categories.css',
 })
@@ -18,6 +19,7 @@ export class PopularCategories {
   categories = signal<Category[]>([]);
 
   popularCategories = ['ficus', 'palm', 'fern', 'begonia'];
+  popularCategoriesLimit: number[] = Array.from({ length: 4 });
 
   constructor() {
     effect(() => {
