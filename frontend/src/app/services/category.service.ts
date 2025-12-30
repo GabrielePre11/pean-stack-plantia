@@ -1,7 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { CategoryResponse } from '@/app/models/types/category.type';
-import { Plant } from '@/app/models/types/plant.type';
+import {
+  CategoryResponse,
+  similarPlantsResponse,
+} from '@/app/models/types/category.type';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -11,12 +14,13 @@ export class CategoryService {
 
   constructor(private httpClient: HttpClient) {}
 
-  getCategories() {
+  getCategories(): Observable<CategoryResponse> {
     return this.httpClient.get<CategoryResponse>(`${this.serverUrl}`);
   }
 
-  // controllare
-  getCategory(slug: string) {
-    return this.httpClient.get<Plant[]>(`${this.serverUrl}/${slug}`);
+  getCategory(slug: string): Observable<similarPlantsResponse> {
+    return this.httpClient.get<similarPlantsResponse>(
+      `${this.serverUrl}/${slug}`
+    );
   }
 }

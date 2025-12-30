@@ -116,3 +116,7 @@
 .review-slider-arrow {
   @apply grid place-items-center p-1.5 bg-transparent border border-border-medium rounded-xs backdrop-blur-sm;
 }
+
+.instruction-li {
+  @apply flex items-center justify-between py-2 border-b border-border-medium;
+}

@@ -14,6 +14,14 @@ export const routes: Routes = [
     loadComponent: () => import('@/app/features/shop/shop').then((m) => m.Shop),
   },
 
+  {
+    path: 'shop/plants/:slug',
+    loadComponent: () =>
+      import(
+        '@/app/features/shop/shop-plant-detail-page/shop-plant-detail-page'
+      ).then((m) => m.ShopPlantDetailPage),
+  },
+
   //============== Auth Routes [Protected by noAuthGuard] ==============//
   {
     path: 'auth',

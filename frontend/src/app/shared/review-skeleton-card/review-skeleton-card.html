@@ -1,0 +1,23 @@
+<li
+  class="flex flex-col bg-background-meta rounded-sm p-5 border border-border-medium w-full"
+>
+  <!-- Header -->
+  <div class="flex items-center justify-between">
+    <!-- Stars -->
+    <div class="flex gap-x-0.5">
+      @for (_ of fakeReviewStars; track $index) {
+      <div class="h-4 w-4 bg-border-medium rounded"></div>
+      }
+    </div>
+
+    <!-- Author -->
+    <div class="h-5 w-24 bg-border-medium rounded"></div>
+  </div>
+
+  <!-- Comment -->
+  <div class="space-y-2 mt-3">
+    <div class="h-4 w-full bg-border-medium rounded"></div>
+    <div class="h-4 w-11/12 bg-border-medium rounded"></div>
+    <div class="h-4 w-10/12 bg-border-medium rounded"></div>
+  </div>
+</li>

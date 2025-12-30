@@ -36,7 +36,7 @@ export const getCategory = async (
 
     const plants = await prisma.plant.findMany({
       where: { categoryId: category.id },
-      include: { category: true },
+      include: { category: true, reviews: true },
     });
 
     return res.status(200).json({ categoryPlants: plants });

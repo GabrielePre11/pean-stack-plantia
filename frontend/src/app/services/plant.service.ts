@@ -1,7 +1,10 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Plant, PlantResponse } from '@/app/models/types/plant.type';
-import { filter, Observable } from 'rxjs';
+import {
+  DetailedPlantPageResponse,
+  PlantResponse,
+} from '@/app/models/types/plant.type';
+import { Observable } from 'rxjs';
 import { FiltersType } from '../models/types/filters.type';
 
 @Injectable({
@@ -34,7 +37,9 @@ export class PlantService {
     );
   }
 
-  getPlant(slug: string): Observable<Plant> {
-    return this.httpClient.get<Plant>(`${this.serverUrl}/${slug}`);
+  getPlant(slug: string): Observable<DetailedPlantPageResponse> {
+    return this.httpClient.get<DetailedPlantPageResponse>(
+      `${this.serverUrl}/${slug}`
+    );
   }
 }

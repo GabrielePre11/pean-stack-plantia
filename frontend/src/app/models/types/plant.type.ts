@@ -1,6 +1,7 @@
 import { Category } from '@/app/models/types/category.type';
+import { Review } from '@/app/models/types/review.type';
 
-export type Review = {
+export type PlantReview = {
   comment?: string;
   rating: number;
 };
@@ -18,7 +19,7 @@ export interface Plant {
   light: LightType;
   name: string;
   price: number;
-  reviews: Review[];
+  reviews: PlantReview[];
   slug: string;
   stock: number;
   updatedAt: Date;
@@ -32,6 +33,13 @@ export interface PlantResponse {
   pages: number;
   plants: Plant[];
   plantsCount: number;
+}
+
+export interface DetailedPlantPageResponse {
+  averageRating: number;
+  plant: Plant;
+  reviews: Review[];
+  totalReviews: number;
 }
 
 enum CareLevel {
