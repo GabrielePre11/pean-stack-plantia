@@ -3,8 +3,8 @@ export const MOBILE_MENU_LINKS: { name: string; path: string }[] = [
   { name: 'Shop', path: '/shop' },
   { name: 'About us', path: '/about' },
   { name: 'Blog', path: '/blog' },
-  { name: 'Wishlist', path: '/wishlist' },
-  { name: 'Cart', path: '/cart' },
+  { name: 'Wishlist', path: '/user/wishlist' },
+  { name: 'Cart', path: '/user/cart' },
   { name: 'Need help?', path: '/help' },
   { name: 'Register / Login', path: '/auth/login' },
 ];

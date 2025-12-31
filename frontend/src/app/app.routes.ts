@@ -22,6 +22,27 @@ export const routes: Routes = [
       ).then((m) => m.ShopPlantDetailPage),
   },
 
+  //============== User Wishlist & Cart Routes [Protected by authGuard] ==============//
+  {
+    path: 'user',
+    canActivate: [authGuard],
+    canActivateChild: [authGuard],
+    children: [
+      {
+        path: 'wishlist',
+        loadComponent: () =>
+          import('@/app/features/user/wishlist/wishlist').then(
+            (m) => m.Wishlist
+          ),
+      },
+      {
+        path: 'cart',
+        loadComponent: () =>
+          import('@/app/features/user/cart/cart').then((m) => m.Cart),
+      },
+    ],
+  },
+
   //============== Auth Routes [Protected by noAuthGuard] ==============//
   {
     path: 'auth',

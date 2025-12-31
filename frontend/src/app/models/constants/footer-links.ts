@@ -26,15 +26,15 @@ export const FOOTER_LINKS = [
     links: [
       {
         name: 'All Plants',
-        path: '/all-plants',
+        path: '/shop',
       },
       {
         name: 'Indoor Plants',
-        path: '/indoor-plants',
+        path: '/',
       },
       {
         name: 'Outdoor Plants',
-        path: '/outdoor-plants',
+        path: '/',
       },
     ],
   },

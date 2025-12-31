@@ -34,6 +34,7 @@
     <app-desktop-menu role="navigation" class="hidden md:flex" />
 
     <!--============== Desktop Search ==============-->
+    <!-- TODO: Refactor Component -->
     <!-- <app-desktop-search role="search" class="hidden sm:flex" /> -->
 
     <!--============== Header Actions ==============-->
@@ -68,7 +69,7 @@
       @if(user()) {
       <li class="hidden sm:flex">
         <button class="header-action-btn group" aria-label="Wishlist">
-          <a routerLink="/wishlist">
+          <a routerLink="/user/wishlist">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="25"
@@ -94,7 +95,7 @@
       @if(user()) {
       <li class="hidden sm:flex">
         <button class="header-action-btn group" aria-label="Cart">
-          <a routerLink="/cart">
+          <a routerLink="/user/cart">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="25"
