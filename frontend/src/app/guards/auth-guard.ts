@@ -18,7 +18,6 @@ export const authGuard: CanActivateFn = (
     return true;
   } else {
     router.navigate(['/']);
-    console.info('You must be logged in!');
     return false;
   }
 };

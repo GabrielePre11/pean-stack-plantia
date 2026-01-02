@@ -192,7 +192,6 @@
   <app-mobile-menu
     role="menu"
     [attr.aria-expanded]="isMobileMenuOpen()"
-    [attr.aria-hidden]="!isMobileMenuOpen()"
     [isOpen]="isMobileMenuOpen()"
     (close)="toggleMobileMenu()"
   />
@@ -201,7 +200,6 @@
   <app-mobile-search
     role="searchbox"
     [attr.aria-expanded]="isMobileMenuOpen()"
-    [attr.aria-hidden]="!isMobileMenuOpen()"
     [isOpen]="isMobileSearchOpen()"
   />
 </header>

@@ -1,1 +1,52 @@
-<p>wishlist works!</p>
+<section class="bg-text" aria-label="Wishlist Section">
+  <div class="w-full bg-bg pt-24 pb-10">
+    <app-container [className]="'flex flex-col gap-2 lg:gap-2.5 xl:gap-3'">
+      <h3 class="text-3xl lg:text-4xl font-medium">
+        {{user()?.name}}'s Wishlist
+      </h3>
+      <h5
+        class="text-xl sm:text-2xl lg:text-3xl font-medium font-secondary text-mustard"
+      >
+        All the plants you love, in one place
+      </h5>
+      <p class="max-w-md lg:max-w-xl xl:max-w-2xl text-sm sm:text-lg">
+        This is where you'll find all the plants you've added to your wishlist.
+        Save them for later, compare your favorites, or come back when you're
+        ready to bring one home. Your perfect green corner starts here.
+      </p>
+    </app-container>
+  </div>
+
+  <!--============== Wishlist ==============-->
+  <app-container>
+    <!--============== No Wishlist Items ==============-->
+    @if (!errorState() && !isLoading() && wishlistItems().length === 0) {
+    <div class="grid place-items-center gap-8 mt-16">
+      <img
+        src="/empty-wishlist.svg"
+        alt="Empty Wishlist"
+        class="max-w-150 w-full object-center"
+      />
+      <div class="flex flex-col gap-2">
+        <small class="text-lg">Your Wishlist is empty. </small>
+        <button
+          class="inline-block w-max items-center justify-center place-self-center rounded-full text-lg text-bg bg-mustard px-4 py-0.5 transition-colors duration-200 ease-in-out hover:bg-mustard/90"
+        >
+          <a routerLink="/shop">See Plants</a>
+        </button>
+      </div>
+    </div>
+    }
+
+    <!--============== Wishlist Items ==============-->
+    <ul
+      class="grid place-items-center grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10 lg:gap-12 py-8"
+    >
+      <!--============== Plants ==============-->
+      @if (!errorState() && !isLoading() && wishlistItems().length > 0) { @for
+      (plant of wishlistItems(); track plant.id) {
+      <app-plant-card [plant]="plant" />
+      } }
+    </ul>
+  </app-container>
+</section>

@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { NextFunction, Request, Response } from "express";
+import { updateCategory } from "./category.controller";
 
 export const getWishlist = async (
   req: Request,
@@ -24,6 +25,7 @@ export const getWishlist = async (
             plant: {
               include: {
                 category: true,
+                reviews: true,
               },
             },
           },
@@ -37,7 +39,7 @@ export const getWishlist = async (
 
     return res.status(200).json({
       wishlistId: wishlist.id,
-      items: wishlist.items,
+      items: wishlist.items.map((item) => item.plant),
       totalItems: wishlist.items.length,
     });
   } catch (error) {
@@ -116,11 +118,32 @@ export const toggleWishlist = async (
     const updatedWishlist = await prisma.wishlist.findUnique({
       where: { userId },
       include: {
-        items: { include: { plant: { include: { category: true } } } },
+        items: {
+          include: {
+            plant: {
+              include: {
+                category: true,
+                reviews: true,
+              },
+            },
+          },
+        },
       },
     });
 
-    return res.status(200).json({ wishlist: updatedWishlist });
+    if (!updatedWishlist) {
+      return res.status(200).json({
+        wishlistId: null,
+        items: [],
+        totalItems: 0,
+      });
+    }
+
+    return res.status(200).json({
+      wishlistId: updatedWishlist.id,
+      items: updatedWishlist.items.map((item) => item.plant),
+      totalItems: updatedWishlist.items.length,
+    });
   } catch (error) {
     next(error);
   }
