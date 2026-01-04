@@ -15,6 +15,8 @@ import { similarPlantsResponse } from '@/app/models/types/category.type';
 import { PlantDetailSkeletonCard } from '@/app/shared/plant-detail-skeleton-card/plant-detail-skeleton-card';
 import { ReviewSkeletonCard } from '@/app/shared/review-skeleton-card/review-skeleton-card';
 import { ReviewCard } from '@/app/shared/review-card/review-card';
+import { CartService } from '@/app/services/cart.service';
+import { WishlistService } from '@/app/services/wishlist.service';
 
 @Component({
   selector: 'app-shop-plant-detail-page',
@@ -34,6 +36,9 @@ import { ReviewCard } from '@/app/shared/review-card/review-card';
 export class ShopPlantDetailPage implements OnInit {
   private plantsService = inject(PlantService);
   private categoryService = inject(CategoryService);
+
+  private wishlistService = inject(WishlistService);
+  private cartService = inject(CartService);
 
   constructor(private route: ActivatedRoute) {}
 
@@ -99,5 +104,18 @@ export class ShopPlantDetailPage implements OnInit {
         },
       });
     }
+  }
+
+  toggleWishlist(plant: Plant) {
+    if (!plant) return;
+    this.wishlistService.toggleWishlist(plant).subscribe();
+  }
+
+  isAlreadyInWishlist(slug: string) {
+    return this.wishlistService.isAlreadyInWishlist(slug);
+  }
+
+  addToCart(plant: Plant) {
+    this.cartService.addToCart(plant).subscribe();
   }
 }

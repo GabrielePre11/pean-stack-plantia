@@ -37,13 +37,18 @@ export const getCart = async (
     }
 
     return res.status(200).json({
-      items: cart.items,
+      cartId: cart.id,
+      items: cart.items.map((item) => ({
+        id: item.id,
+        quantity: item.quantity,
+        plant: item.plant,
+      })),
       totalItems: cart.items.length,
+      totalQuantity: cart.items.reduce((acc, item) => acc + item.quantity, 0),
       totalAmount: cart.items.reduce(
         (acc, item) => acc.plus(item.plant.price.times(item.quantity)),
         new Decimal(0)
       ),
-      totalQuantity: cart.items.reduce((acc, item) => acc + item.quantity, 0),
     });
   } catch (error) {
     next(error);
@@ -109,11 +114,39 @@ export const addToCart = async (
     const updatedCart = await prisma.cart.findUnique({
       where: { userId },
       include: {
-        items: { include: { plant: { include: { category: true } } } },
+        items: {
+          include: { plant: { include: { category: true, reviews: true } } },
+        },
       },
     });
 
-    return res.status(200).json({ cart: updatedCart });
+    if (!updatedCart) {
+      return res.status(200).json({
+        cartId: null,
+        items: [],
+        totalItems: 0,
+        totalAmount: new Decimal(0),
+        totalQuantity: 0,
+      });
+    }
+
+    return res.status(200).json({
+      cartId: updatedCart.id,
+      items: updatedCart.items.map((item) => ({
+        id: item.id,
+        quantity: item.quantity,
+        plant: item.plant,
+      })),
+      totalItems: updatedCart.items.length,
+      totalQuantity: updatedCart.items.reduce(
+        (acc, item) => acc + item.quantity,
+        0
+      ),
+      totalAmount: updatedCart.items.reduce(
+        (acc, item) => acc.plus(item.plant.price.times(item.quantity)),
+        new Decimal(0)
+      ),
+    });
   } catch (error) {
     next(error);
   }
@@ -191,12 +224,38 @@ export const removeFromCart = async (
       where: { userId },
       include: {
         items: {
-          include: { plant: { include: { category: true } } },
+          include: { plant: { include: { category: true, reviews: true } } },
         },
       },
     });
 
-    return res.status(200).json({ cart: updatedCart });
+    if (!updatedCart) {
+      return res.status(200).json({
+        cartId: null,
+        items: [],
+        totalItems: 0,
+        totalAmount: new Decimal(0),
+        totalQuantity: 0,
+      });
+    }
+
+    return res.status(200).json({
+      cartId: updatedCart.id,
+      items: updatedCart.items.map((item) => ({
+        id: item.id,
+        quantity: item.quantity,
+        plant: item.plant,
+      })),
+      totalItems: updatedCart.items.length,
+      totalQuantity: updatedCart.items.reduce(
+        (acc, item) => acc + item.quantity,
+        0
+      ),
+      totalAmount: updatedCart.items.reduce(
+        (acc, item) => acc.plus(item.plant.price.times(item.quantity)),
+        new Decimal(0)
+      ),
+    });
   } catch (error) {
     next(error);
   }

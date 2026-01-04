@@ -1,1 +1,137 @@
-<p>cart works!</p>
+<section class="pt-24 bg-bg" aria-label="Cart Section">
+  <app-container>
+    <!--============== Heading ==============-->
+    <h3 class="text-3xl lg:text-4xl font-medium">Your Cart</h3>
+
+    <div
+      class="grid grid-cols-1 sm:grid-cols-2 items-start gap-5 sm:gap-8 lg:gap-10 xl:gap-14"
+    >
+      <!--============== LEFT COLUMN ==============-->
+      <div>
+        <!--============== No Cart Items ==============-->
+        @if (!errorState() && !isLoading() && cartItems().length === 0) {
+        <div class="grid place-items-center gap-8 mt-16">
+          <img
+            src="/empty-wishlist.svg"
+            alt="Empty Wishlist"
+            class="max-w-150 w-full object-center"
+          />
+          <div class="flex flex-col gap-2">
+            <small class="text-lg">Your Cart is empty. </small>
+            <button
+              class="inline-block w-max items-center justify-center place-self-center rounded-full text-lg text-bg bg-mustard px-4 py-0.5 transition-colors duration-200 ease-in-out hover:bg-mustard/90"
+            >
+              <a routerLink="/shop">See Plants</a>
+            </button>
+          </div>
+        </div>
+        }
+
+        <!--============== Cart Items ==============-->
+        <ul
+          class="grid grid-cols-1 items-start gap-2 mt-5 overflow-y-scroll max-h-145"
+        >
+          <!--============== Loading ==============-->
+          @if (!errorState() && isLoading()) { @for (skeleton of cartItems();
+          track skeleton.id) {
+          <app-cart-item-skeleton-card />
+          } }
+
+          <!--============== Items ==============-->
+          @if(!errorState() && !isLoading() && cartItems().length > 0) { @for
+          (item of cartItems(); track item.id) {
+          <app-cart-item-card [item]="item" />
+          } }
+        </ul>
+
+        <!--============== From Wishlist ==============-->
+        <div class="flex flex-col mt-8">
+          <!--============== Heading ==============-->
+          <h3 class="text-3xl lg:text-4xl font-medium">From Your Wishlist</h3>
+
+          @if (!errorState() && !isLoading() && wishlistItems().length === 0) {
+          <div class="grid place-items-center gap-8 mt-16">
+            <img
+              src="/empty-wishlist.svg"
+              alt="Empty Wishlist"
+              class="max-w-150 w-full object-center"
+            />
+            <div class="flex flex-col gap-2">
+              <small class="text-lg">Your Wishlist is empty. </small>
+              <button
+                class="inline-block w-max items-center justify-center place-self-center rounded-full text-lg text-bg bg-mustard px-4 py-0.5 transition-colors duration-200 ease-in-out hover:bg-mustard/90"
+              >
+                <a routerLink="/shop">See Plants</a>
+              </button>
+            </div>
+          </div>
+          }
+
+          <!--============== Wishlist Items ==============-->
+          <ul
+            class="grid grid-cols-1 items-start gap-2 mt-5 overflow-y-scroll max-h-145"
+          >
+            <!--============== Loading State ==============-->
+            @if (!errorState() && isLoading()) { @for (skeleton of
+            wishlistItems(); track skeleton.id) {
+            <app-cart-wishlist-item-skeleton-card />
+            } }
+
+            <!--============== Plants ==============-->
+            @if (!errorState() && !isLoading() && wishlistItems().length > 0) {
+            @for (plant of wishlistItems(); track plant.id) {
+            <app-cart-wishlist-item-card [plant]="plant" />
+            } }
+          </ul>
+        </div>
+      </div>
+
+      <!--============== RIGHT COLUMN ==============-->
+      <div
+        class="flex flex-col mt-5 gap-1.5 bg-text p-3 rounded-sm border border-border-darkest text-black"
+      >
+        <!--============== Cart Summary ==============-->
+        <h3 class="text-bg text-2xl sm:text-3xl lg:text-4xl font-medium">
+          Summary
+        </h3>
+
+        <!--============== Subtotal & Shipping ==============-->
+        <div class="flex flex-col gap-2">
+          <!--============== Subtotal ==============-->
+          <div class="flex justify-between">
+            <span class="text-lg xl:text-xl">Subtotal</span>
+            <span class="font-medium text-lg text-background-meta"
+              >{{totalAmount() | currency: 'EUR'}}</span
+            >
+          </div>
+
+          <!--============== Shipping ==============-->
+          <div class="flex justify-between">
+            <span class="text-lg xl:text-xl">Shipping</span>
+            <span class="font-medium uppercase text-lg text-background-meta"
+              >{{ shippingPrice() === 0 ? 'Free' : (shippingPrice() |
+              currency:'EUR') }}
+            </span>
+          </div>
+
+          <div class="border-t border-border-darker pt-3 lg:pt-5">
+            <!--============== Shipping ==============-->
+            <div class="flex justify-between pb-3">
+              <span class="text-lg xl:text-xl">Total</span>
+              <span class="font-medium uppercase text-lg text-background-meta"
+                >{{totalAmount() | currency: 'EUR'}}</span
+              >
+            </div>
+
+            <!--============== Checkout Button ==============-->
+            <button
+              class="inline-flex items-center justify-center px-4 py-2 bg-bg text-text text-lg w-full rounded-sm transition-colors duration-200 ease-in-out hover:text-mustard hover:bg-bg-darker"
+            >
+              Proceed to Checkout
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </app-container>
+</section>

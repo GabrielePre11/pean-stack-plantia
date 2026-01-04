@@ -1,0 +1,81 @@
+<li class="flex items-center gap-5 bg-text rounded-xs p-2 w-full">
+  <!--============== Image ==============-->
+  <figure class="overflow-hidden aspect-square max-w-20 rounded-xs">
+    <img
+      [src]="item().plant.image"
+      [alt]="item().plant.name + ' image'"
+      class="size-full object-center object-cover rounded-xs"
+    />
+  </figure>
+
+  <!--============== Informations ==============-->
+  <div class="flex flex-col gap-0.5 text-black w-full">
+    <!--============== Name ==============-->
+    <h4 class="font-medium text-lg line-clamp-1 truncate">
+      {{item().plant.name}}
+    </h4>
+
+    <!--============== Category ==============-->
+    <small
+      class="inline-flex items-center px-3 py-1 w-max text-sm text-accent bg-bg rounded-xs"
+      >{{item().plant.category.name}}</small
+    >
+
+    <!--============== Price & Quantity ==============-->
+    <div class="flex items-center justify-between gap-5 w-full">
+      <!--============== Price ==============-->
+      <span class="font-normal text-lg">
+        {{item().plant.price | currency: 'EUR'}}
+      </span>
+
+      <!--============== Quantity ==============-->
+      <div
+        class="flex items-center gap-1 rounded-lg border border-border-darkest p-1"
+      >
+        <button
+          class="cursor-pointer transition-transform duration-200 hover:scale-103 ease-in-out"
+          aria-label="Decrease Product Quantity / Remove Product From Cart"
+          (click)="removeFromCart(item().plant)"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="red"
+            class="size-6"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M15 12H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+            />
+          </svg>
+        </button>
+
+        <span class="font-medium">{{item().quantity}}</span>
+
+        <button
+          class="cursor-pointer transition-transform duration-200 hover:scale-103 ease-in-out"
+          aria-label="Increase Product Quantity"
+          (click)="addToCart(item().plant)"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="green"
+            class="size-6"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+            />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</li>

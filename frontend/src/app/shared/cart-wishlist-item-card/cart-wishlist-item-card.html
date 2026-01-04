@@ -1,0 +1,89 @@
+<li class="flex items-center gap-5 bg-text rounded-xs p-2 w-full">
+  <!--============== Image ==============-->
+  <figure class="overflow-hidden aspect-square max-w-20 rounded-xs">
+    <img
+      [src]="plant().image"
+      [alt]="plant().name + ' image'"
+      class="size-full object-center object-cover rounded-xs"
+    />
+  </figure>
+
+  <!--============== Informations ==============-->
+  <div class="flex flex-col gap-0.5 text-black w-full">
+    <!--============== Name ==============-->
+    <h4 class="font-medium text-lg line-clamp-1 truncate">{{plant().name}}</h4>
+
+    <!--============== Category ==============-->
+    <small
+      class="inline-flex items-center px-3 py-1 w-max text-sm text-accent bg-bg rounded-xs"
+      >{{plant().category.name}}</small
+    >
+
+    <!--============== Price & Quantity ==============-->
+    <div class="flex items-center justify-between gap-5 w-full">
+      <!--============== Price ==============-->
+      <span class="font-normal text-lg">
+        {{plant().price | currency: 'EUR'}}
+      </span>
+
+      <!--============== Actions ==============-->
+      <div class="flex items-center gap-2">
+        <!--============== Remove From Wishlist ==============-->
+        <button
+          class="grid place-items-center p-0.5 text-bg border border-bg rounded-xl transition-colors duration-200 ease-in-out hover:bg-bg hover:border-bg-contrast hover:text-text"
+          aria-label="Remove From Wishlist"
+          (click)="removeFromWishlist(plant())"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="28"
+            height="28"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="lucide lucide-trash2-icon lucide-trash-2 stroke-red-500 transition-transform duration-200 ease-in-out hover:stroke-text hover:scale-103"
+          >
+            <path d="M10 11v6" />
+            <path d="M14 11v6" />
+            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" />
+            <path d="M3 6h18" />
+            <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+          </svg>
+        </button>
+
+        <!--============== Add To Cart ==============-->
+        <button
+          class="grid place-items-center p-0.5 text-bg border border-bg rounded-xl transition-colors duration-200 ease-in-out hover:bg-bg hover:border-bg-contrast hover:text-text"
+          aria-label="Add To Cart"
+          (click)="addToCart(plant())"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="28"
+            height="28"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="lucide lucide-shopping-basket-icon lucide-shopping-basket transition-transform duration-200 ease-in-out hover:scale-103"
+          >
+            <path d="m15 11-1 9" />
+            <path d="m19 11-4-7" />
+            <path d="M2 11h20" />
+            <path
+              d="m3.5 11 1.6 7.4a2 2 0 0 0 2 1.6h9.8a2 2 0 0 0 2-1.6l1.7-7.4"
+            />
+            <path d="M4.5 15.5h15" />
+            <path d="m5 11 4-7" />
+            <path d="m9 11 1 9" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</li>
