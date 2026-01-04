@@ -54,6 +54,7 @@
       }
     </ul>
 
+    @if (!user()) {
     <ul class="flex flex-col mt-5">
       @for (link of mobileMenuLinks.slice(4, 6); track link.name) {
       <li
@@ -69,9 +70,12 @@
       </li>
       }
     </ul>
+    }
 
     <ul class="flex flex-col mt-5">
       @for (link of mobileMenuLinks.slice(6, 8); track link.name) {
+      <!--============== User Check ==============-->
+      @if(!user() && link.path === '/auth/login') {
       <li
         class="text-bg-contrast hover:text-accent hover:bg-bg-contrast text-xl px-5 py-3 border-b border-b-border-medium font-normal transition-colors duration-200 ease-in-out"
         (click)="closeMobileMenu()"
@@ -83,7 +87,7 @@
           >{{link.name}}</a
         >
       </li>
-      }
+      } }
     </ul>
   </ul>
 </nav>
