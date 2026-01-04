@@ -42,6 +42,12 @@
     <ul
       class="grid place-items-center grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10 lg:gap-12 py-8"
     >
+      <!--============== Loading ==============-->
+      @if (!errorState() && isLoading()) { @for (skeleton of wishlistItems();
+      track skeleton.id) {
+      <app-card-skeleton-card />
+      } }
+
       <!--============== Plants ==============-->
       @if (!errorState() && !isLoading() && wishlistItems().length > 0) { @for
       (plant of wishlistItems(); track plant.id) {

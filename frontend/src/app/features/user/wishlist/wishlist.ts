@@ -5,10 +5,11 @@ import { RouterModule } from '@angular/router';
 import { WishlistService } from '@/app/services/wishlist.service';
 import { PlantCard } from '@/app/shared/plant-card/plant-card';
 import { AuthService } from '@/app/services/auth.service';
+import { CardSkeletonCard } from '@/app/shared/card-skeleton-card/card-skeleton-card';
 
 @Component({
   selector: 'app-wishlist',
-  imports: [Container, CommonModule, RouterModule, PlantCard],
+  imports: [Container, CommonModule, RouterModule, PlantCard, CardSkeletonCard],
   templateUrl: './wishlist.html',
   styleUrl: './wishlist.css',
 })
