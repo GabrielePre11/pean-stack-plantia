@@ -33,10 +33,6 @@
     <!--============== Desktop Navigation ==============-->
     <app-desktop-menu role="navigation" class="hidden md:flex" />
 
-    <!--============== Desktop Search ==============-->
-    <!-- TODO: Refactor Component -->
-    <!-- <app-desktop-search role="search" class="hidden sm:flex" /> -->
-
     <!--============== Header Actions ==============-->
     <ul class="relative flex items-center gap-1.5 md:gap-2">
       <!--============== Search ==============-->
@@ -44,7 +40,7 @@
         <button
           class="header-search-action-btn group"
           aria-label="Search"
-          (click)="toggleMobileSearch()"
+          (click)="windowWidth() > 640 ? toggleDesktopSearch() : toggleMobileSearch()"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -187,6 +183,14 @@
     [attr.aria-expanded]="isMobileMenuOpen()"
     [attr.aria-hidden]="!isMobileMenuOpen()"
   ></div>
+
+  <!--============== Desktop Search ==============-->
+  <app-desktop-search
+    role="search"
+    [attr.aria-expanded]="!isDesktopMenuOpen()"
+    [isOpen]="isDesktopMenuOpen()"
+    (onClose)="toggleDesktopSearch()"
+  />
 
   <!--============== Mobile Menu ==============-->
   <app-mobile-menu

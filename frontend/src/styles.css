@@ -86,7 +86,7 @@
 }
 
 .header-search-action-btn {
-  @apply grid sm:hidden place-items-center p-1.5 border border-transparent hover:border-icon-darker transition-colors duration-200 ease-in-out;
+  @apply grid place-items-center p-1.5 border border-transparent hover:border-icon-darker transition-colors duration-200 ease-in-out;
 }
 
 .overlay {

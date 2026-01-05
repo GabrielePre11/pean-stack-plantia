@@ -1,31 +1,13 @@
-<form class="relative flex items-center">
+<form
+  class="absolute top-1/2 left-1/2 -translate-1/2 min-w-100 lg:min-w-120 z-30 transition-all duration-200 ease-in-out"
+  [ngClass]="isOpen() ? 'scale-100 visible opacity-100' : 'scale-0 invisible opacity-0 pointer-events-none'"
+  (submit)="onSubmit($event, userQuery.value)"
+>
   <input
     type="search"
     inputmode="latin"
     placeholder="Search..."
-    class="relative flex items-center text-lg text-bg-contrast w-62.5 lg:w-75 xl:w-[320px] bg-amber-50 pl-4 pr-10 py-1.5 border border-border-darker rounded-full outline-0"
+    class="relative flex items-center text-lg w-full py-2.5 px-4 bg-black/30 backdrop-blur-xs rounded-sm border border-border-darkest outline-none focus:ring-1 focus:ring-accent"
+    #userQuery
   />
-
-  <!-- Search Icon -->
-  <button
-    aria-label="Search"
-    aria-hidden="true"
-    class="absolute grid top-1/2 right-2.5 -translate-y-1/2 place-items-center p-1.5 text-bg-contrast"
-  >
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="25"
-      height="25"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      stroke-width="2"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      class="lucide lucide-search-icon lucide-search"
-    >
-      <path d="m21 21-4.34-4.34" />
-      <circle cx="11" cy="11" r="8" />
-    </svg>
-  </button>
 </form>

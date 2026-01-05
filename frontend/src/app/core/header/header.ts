@@ -33,10 +33,13 @@ export class Header {
   user = this.authService.user;
 
   isMobileMenuOpen = signal<boolean>(false);
+  isDesktopMenuOpen = signal<boolean>(false);
   isMobileSearchOpen = signal<boolean>(false);
   isUserMenuOpen = signal<boolean>(false);
   isHeaderScrolled = signal<boolean>(false);
   scrollY = signal<number>(window.scrollY);
+
+  windowWidth = signal<number>(window.innerWidth);
 
   constructor() {
     effect(() => {
@@ -51,8 +54,13 @@ export class Header {
         this.isHeaderScrolled.set(window.scrollY > 0);
       });
 
+      window.addEventListener('resize', () => {
+        this.windowWidth.set(window.innerWidth);
+      });
+
       return () => {
         window.removeEventListener('scroll', () => {});
+        window.removeEventListener('resize', () => {});
       };
     });
   }
@@ -67,6 +75,13 @@ export class Header {
     this.isMobileSearchOpen.update((prev) => !prev);
     this.isMobileMenuOpen.set(false);
     this.isUserMenuOpen.set(false);
+  }
+
+  toggleDesktopSearch() {
+    this.isMobileSearchOpen.set(false);
+    this.isMobileMenuOpen.set(false);
+    this.isUserMenuOpen.set(false);
+    this.isDesktopMenuOpen.update((prev) => !prev);
   }
 
   toggleUserMenu() {
