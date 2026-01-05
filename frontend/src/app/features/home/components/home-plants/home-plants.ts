@@ -1,8 +1,8 @@
 import {
   Component,
-  effect,
   ElementRef,
   inject,
+  OnInit,
   signal,
   viewChild,
 } from '@angular/core';
@@ -17,7 +17,7 @@ import { CardSkeletonCard } from '@/app/shared/card-skeleton-card/card-skeleton-
   templateUrl: './home-plants.html',
   styleUrl: './home-plants.css',
 })
-export class HomePlants {
+export class HomePlants implements OnInit {
   private plantsService = inject(PlantService);
 
   isLoading = signal<boolean>(false);
@@ -27,19 +27,21 @@ export class HomePlants {
   plantsLimit = Array.from({ length: 4 });
   sliderRef = viewChild<ElementRef<HTMLUListElement>>('plantsSliderRef');
 
-  constructor() {
-    effect(() => {
-      this.isLoading.set(true);
+  /**
+   * @ effect() was removed and replaced with ngOnInit() because it was not reacting
+   * @ to any signals / changes.
+   */
+  ngOnInit(): void {
+    this.isLoading.set(true);
 
-      this.plantsService.getPlants().subscribe({
-        next: () => {
-          this.isLoading.set(false);
-        },
-        error: (err) => {
-          this.isLoading.set(false);
-          this.errorState.set(err?.error?.message || 'Something went wrong.');
-        },
-      });
+    this.plantsService.getPlants().subscribe({
+      next: () => {
+        this.isLoading.set(false);
+      },
+      error: (err) => {
+        this.isLoading.set(false);
+        this.errorState.set(err?.error?.message || 'Something went wrong.');
+      },
     });
   }
 

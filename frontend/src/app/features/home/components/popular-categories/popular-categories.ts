@@ -1,7 +1,6 @@
 import { Component, effect, inject, OnInit, signal } from '@angular/core';
 import { Container } from '@/app/layout/container/container';
 import { CategoryService } from '@/app/services/category.service';
-import { Category, CategoryResponse } from '@/app/models/types/category.type';
 import { CategoryCard } from '@/app/shared/category-card/category-card';
 import { CategorySkeletonCard } from '@/app/shared/category-skeleton-card/category-skeleton-card';
 
@@ -21,6 +20,10 @@ export class PopularCategories implements OnInit {
   // Popular Categories Limit
   popularCategoriesLimit: number[] = Array.from({ length: 4 });
 
+  /**
+   * @ effect() was removed and replaced with ngOnInit() because it was not reacting
+   * @ to any signals / changes.
+   */
   ngOnInit(): void {
     this.isLoading.set(true);
     this.errorState.set(null);
