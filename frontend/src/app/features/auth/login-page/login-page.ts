@@ -65,6 +65,8 @@ export class LoginPage {
    * @ In Angular, gli HttpClient restituiscono sempre Observables, non Promises.
    * @ Gli Observables sono lazy: la richiesta parte solo quando qualcuno fa subscribe().
    * @ Con RxJS puoi trasformarli, concatenarli o gestire effetti collaterali (tap, map, switchMap…)
+   *
+   * - fonte: ChatGPT
    */
 
   onSubmit(e: Event) {

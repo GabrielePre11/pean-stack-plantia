@@ -255,10 +255,55 @@
 
     <!--============== Reviews ==============-->
     <div
-      class="flex flex-col gap-2 mt-3.5 md:mt-8 lg:mt-10 xl:mt-14 md:border-t border-border-medium pt-3 lg:pt-5"
+      class="relative flex flex-col gap-2 mt-3.5 md:mt-8 lg:mt-10 xl:mt-14 md:border-t border-border-medium pt-3 lg:pt-5"
     >
       <!--============== Heading ==============-->
-      <h3 class="text-3xl xl:text-4xl font-secondary text-mustard">Reviews</h3>
+      <div class="flex items-center justify-between gap-5">
+        <h3 class="text-3xl xl:text-4xl font-secondary text-mustard">
+          Reviews
+        </h3>
+
+        <!--============== Add Review (only if there's not a review yet) ==============-->
+        @if (user() && plantReviews().length === 0) {
+        <button
+          class="inline-flex items-center gap-2 bg-mustard text-bg text-sm md:text-lg font-medium px-2 py-1 rounded-sm w-max transition-colors duration-200 ease-in-out hover:bg-mustard/90 group"
+          (click)="toggleReviewForm()"
+        >
+          Add Review
+
+          <!-- Icon -->
+          <span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="lucide lucide-badge-plus-icon lucide-badge-plus transition-transform duration-200 ease-in-out group-hover:rotate-180"
+            >
+              <path
+                d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"
+              />
+              <line x1="12" x2="12" y1="8" y2="16" />
+              <line x1="8" x2="16" y1="12" y2="12" />
+            </svg>
+          </span>
+        </button>
+        }
+      </div>
+
+      <!--============== No Reviews ==============-->
+      @if (!errorState() && !isLoading() && plantReviews().length === 0) {
+      <p
+        class="flex items-center justify-center text-center font-medium text-text pt-5"
+      >
+        There are no reviews for this plant yet.
+      </p>
+      }
 
       <!--============== Reviews ==============-->
       <ul
@@ -273,9 +318,104 @@
         <!--============== Reviews Cards ==============-->
         @if (!errorState() && !isLoading() && plantReviews().length > 0) { @for
         (review of plantReviews(); track review.id) {
-        <app-review-card [review]="review" />
+        <app-review-card [review]="review" [plant]="plant()!" />
         } }
       </ul>
+
+      <!--============== Add Review Form ==============-->
+      @if (user()) {
+      <form
+        class="absolute text-center flex flex-col gap-3 p-5 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-text text-bg rounded-sm w-full z-30 max-w-125 shadow-sm shadow-mustard transition-transform duration-200 ease-in-out"
+        [ngClass]="isCreateReviewOpen() ? 'scale-105 visible opacity-100' : 'scale-0 hidden opacity-0 pointer-events-none'"
+        (submit)="onSubmit($event, plant()!.id)"
+      >
+        <!--============== Heading ==============-->
+        <h3
+          class="text-3xl md:text-4xl xl:text-5xl font-secondary font-bold text-bg-contrast mb-3.5"
+        >
+          Add Review
+        </h3>
+
+        <!--============== Input Fields ==============-->
+        <input
+          type="number"
+          [formControl]="rating"
+          min="1"
+          max="5"
+          inputmode="numeric"
+          placeholder="Rating (1-5 stars)"
+          class="flex bg-bg text-text py-3 px-4 rounded-sm border border-mustard outline-none focus:ring-2 focus:ring-mustard focus:ring-offset-2"
+          name="rating"
+          id="rating"
+          required
+        />
+
+        <textarea
+          [formControl]="message"
+          name="message"
+          id="message"
+          placeholder="Your Message..."
+          cols="30"
+          rows="5"
+          class="bg-bg text-text border border-mustard rounded-sm p-3 resize-none overflow-y-auto outline-none focus:ring-2 focus:ring-mustard focus:ring-offset-2"
+        ></textarea>
+
+        <!--============== Errors ==============-->
+        <!-- Backend Error -->
+        @if(this.isFormSubmitted() && rating.valid && message.valid &&
+        errorState()) {
+        <small class="error-state"> {{errorState()}} </small>
+        }
+
+        <!-- Rating Error -->
+        @if((rating.dirty || isFormSubmitted()) && rating.invalid) {
+        <small class="error-state"> {{getRatingErrors()}} </small>
+        }
+
+        <!-- Message Error -->
+        @if((message.dirty || isFormSubmitted()) && message.invalid) {
+        <small class="error-state"> {{getMessageErrors()}} </small>
+        }
+
+        <!--============== Actions ==============-->
+        <div class="flex items-center justify-between gap-2 mt-1.5">
+          <button
+            type="submit"
+            class="inline-block items-center justify-center text-lg rounded-sm py-2 px-4 bg-mustard text-bg-darker w-full transition-colors duration-200 ease-in-out hover:bg-mustard/90"
+            [disabled]="!rating.valid || !message.valid || isLoading()"
+            [attr.aria.disabled]="!rating.valid || !message.valid || isLoading()"
+            [attr.aria-busy]="isLoading()"
+          >
+            @if(isLoading()) {
+            <span aria-label="Loading Spinner" aria-live="polite">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="26"
+                height="26"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-loader-circle-icon lucide-loader-circle text-bg-darker place-self-center transition-transform duration-200 ease-in-out animate-spin"
+              >
+                <path d="M21 12a9 9 0 1 1-6.219-8.56" />
+              </svg>
+            </span>
+            } @else { Create }
+          </button>
+
+          <button
+            type="button"
+            class="inline-block items-center justify-center text-lg rounded-sm py-2 px-4 bg-red-600 text-text w-full transition-colors duration-200 ease-in-out hover:bg-red-700"
+            (click)="toggleReviewForm()"
+          >
+            Cancel
+          </button>
+        </div>
+      </form>
+      }
     </div>
   </app-container>
 
@@ -307,4 +447,10 @@
       </ul>
     </app-container>
   </div>
+
+  <!--============== Overlay ==============-->
+  <div
+    class="top-0 left-0 w-full h-full bg-black/30 backdrop-blur-sm z-20"
+    [ngClass]="isCreateReviewOpen() ? 'fixed' : 'hidden'"
+  ></div>
 </section>
