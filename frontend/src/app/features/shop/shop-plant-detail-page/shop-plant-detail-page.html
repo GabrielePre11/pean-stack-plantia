@@ -45,7 +45,8 @@
             <button
               class="grid place-items-center border border-bg p-2 bg-text text-bg rounded-full transition-colors duration-200 ease-in-out hover:bg-text/90"
               aria-label="Add To Wishlist"
-              (click)="toggleWishlist(plant()!)"
+              (click)="user() && toggleWishlist(plant()!)"
+              [attr.aria-pressed]="isAlreadyInWishlist(plant()!.slug)"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -70,7 +71,7 @@
             <button
               class="grid place-items-center border border-bg p-2 bg-text text-bg rounded-full transition-colors duration-200 ease-in-out hover:bg-text/90"
               aria-label="Add To Cart"
-              (click)="addToCart(plant()!)"
+              (click)="user() && addToCart(plant()!)"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -323,7 +324,7 @@
       </ul>
 
       <!--============== Add Review Form ==============-->
-      @if (user()) {
+      @if (user() && plantReviews().length === 0) {
       <form
         class="absolute text-center flex flex-col gap-3 p-5 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-text text-bg rounded-sm w-full z-30 max-w-125 shadow-sm shadow-mustard transition-transform duration-200 ease-in-out"
         [ngClass]="isCreateReviewOpen() ? 'scale-105 visible opacity-100' : 'scale-0 hidden opacity-0 pointer-events-none'"

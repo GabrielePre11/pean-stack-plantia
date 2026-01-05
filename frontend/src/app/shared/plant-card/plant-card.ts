@@ -1,4 +1,5 @@
 import { Plant } from '@/app/models/types/plant.type';
+import { AuthService } from '@/app/services/auth.service';
 import { CartService } from '@/app/services/cart.service';
 import { WishlistService } from '@/app/services/wishlist.service';
 import { CommonModule, CurrencyPipe } from '@angular/common';
@@ -14,9 +15,12 @@ import { RouterModule } from '@angular/router';
 export class PlantCard {
   private wishlistService = inject(WishlistService);
   private cartService = inject(CartService);
+  private authService = inject(AuthService);
 
   readonly plant = input.required<Plant>();
+  user = this.authService.user;
 
+  // Reviews Limit
   reviews = Array.from({ length: 5 });
 
   toggleWishlist(plant: Plant) {

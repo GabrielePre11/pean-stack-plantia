@@ -39,8 +39,6 @@ import { ReviewService } from '@/app/services/review.service';
 })
 export class ShopPlantDetailPage implements OnInit {
   private plantsService = inject(PlantService);
-  private categoryService = inject(CategoryService);
-
   private authService = inject(AuthService);
   private wishlistService = inject(WishlistService);
   private cartService = inject(CartService);
@@ -48,18 +46,53 @@ export class ShopPlantDetailPage implements OnInit {
 
   constructor(private route: ActivatedRoute) {}
 
+  // Plant SLug from URL Params
   plantSlug: string | null = null;
-  user = this.authService.user;
 
+  // States
   isLoading = signal<boolean>(false);
   errorState = signal<string | null>(null);
-  plant = signal<Plant | null>(null);
-  plantReviews = this.reviewService.reviews;
-  similarPlants = signal<Plant[]>([]);
 
+  // Lifecycle
+  /**
+   * @ effect() was removed and replaced with ngOnInit() because it was not reacting
+   * @ to any signals changes.
+   */
+  ngOnInit(): void {
+    this.route.paramMap.subscribe((params) => {
+      const slug = params.get('slug');
+
+      if (slug) {
+        this.plantSlug = String(slug);
+
+        this.isLoading.set(true);
+
+        this.plantsService.getPlant(this.plantSlug).subscribe({
+          next: () => {
+            this.isLoading.set(false);
+          },
+          error: (err) => {
+            this.isLoading.set(false);
+            this.errorState.set(err?.error?.message || 'Something went wrong');
+          },
+        });
+      }
+    });
+  }
+
+  // User
+  user = this.authService.user;
+
+  // Plant | Plant Reviews | Similar Plants
+  plant = this.plantsService.plant;
+  plantReviews = this.reviewService.reviews;
+  similarPlants = this.plantsService.recommendedPlants;
+
+  // Form States
   isCreateReviewOpen = signal<boolean>(false);
   isFormSubmitted = signal<boolean>(false);
 
+  // Limits
   plantsLimit = Array.from({ length: 4 });
   reviewsLimit = Array.from({ length: 3 });
   reviewsStars = Array.from({ length: 5 });
@@ -84,6 +117,7 @@ export class ShopPlantDetailPage implements OnInit {
     ],
   });
 
+  // Forms Errors Methods
   getRatingErrors(): string {
     if (this.rating.errors?.['required']) return 'Rating is required.';
     if (this.rating.errors?.['min']) return 'Rating must be at least 1.';
@@ -102,59 +136,7 @@ export class ShopPlantDetailPage implements OnInit {
     return '';
   }
 
-  ngOnInit(): void {
-    this.route.paramMap.subscribe((params) => {
-      const slug = params.get('slug');
-
-      if (slug) {
-        this.plantSlug = String(slug);
-        this.effect();
-      }
-    });
-  }
-
-  effect() {
-    if (this.plantSlug) {
-      this.isLoading.set(true);
-      this.errorState.set(null);
-
-      // Plants
-      this.plantsService.getPlant(this.plantSlug).subscribe({
-        next: (data: DetailedPlantPageResponse) => {
-          this.isLoading.set(false);
-          this.errorState.set(null);
-
-          this.plant.set(data.plant);
-
-          if (Array.isArray(data.reviews)) {
-            this.reviewService.setReviews(data.reviews);
-          }
-
-          // Recommended Plants
-          const categorySlug = data.plant.category.slug;
-
-          this.categoryService.getCategory(categorySlug).subscribe({
-            next: (data: similarPlantsResponse) => {
-              if (Array.isArray(data.categoryPlants)) {
-                this.similarPlants.set(data.categoryPlants.slice(0, 4));
-              }
-            },
-            error: (err) => {
-              this.isLoading.set(false);
-              this.errorState.set(
-                err?.error?.message || 'Something went wrong'
-              );
-            },
-          });
-        },
-        error: (err) => {
-          this.isLoading.set(false);
-          this.errorState.set(err?.error?.message || 'Something went wrong');
-        },
-      });
-    }
-  }
-
+  // Wishlist Methods
   toggleWishlist(plant: Plant) {
     if (!plant) return;
     this.wishlistService.toggleWishlist(plant).subscribe();
@@ -164,14 +146,17 @@ export class ShopPlantDetailPage implements OnInit {
     return this.wishlistService.isAlreadyInWishlist(slug);
   }
 
+  // Cart Methods
   addToCart(plant: Plant) {
     this.cartService.addToCart(plant).subscribe();
   }
 
+  // Review Methods
   toggleReviewForm() {
     this.isCreateReviewOpen.update((prev) => !prev);
   }
 
+  // Create Review Form Methods
   onSubmit(e: Event, plantId: number) {
     e.preventDefault();
     this.isFormSubmitted.set(true);

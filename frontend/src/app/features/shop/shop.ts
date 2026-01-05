@@ -19,15 +19,20 @@ export class Shop {
 
   isLoading = signal(false);
   errorState = signal<string | null>(null);
+
+  // Filters Toggle
   filtersOpen = signal<boolean>(false);
-  plants = signal<Plant[]>([]);
 
-  currentPage = signal<number>(1);
-  totalPlants = signal<number>(0);
-  totalPages = signal<number>(0);
-
+  // Plants & Plants Limit
+  plants = this.plantService.plants;
   plantsLimit = Array.from({ length: 10 });
 
+  // Pagination
+  currentPage = signal<number>(1);
+  totalPlants = this.plantService.totalPlants;
+  totalPages = this.plantService.totalPages;
+
+  // Filters
   selectedFilters = signal<FiltersType>({
     category: null,
     sort: null,
@@ -64,14 +69,8 @@ export class Shop {
       this.plantService
         .getPlants(this.currentPage(), this.selectedFilters())
         .subscribe({
-          next: (data: PlantResponse) => {
-            if (Array.isArray(data.plants)) {
-              this.isLoading.set(false);
-              this.errorState.set(null);
-              this.totalPlants.set(data.count);
-              this.totalPages.set(Math.ceil(data.count / data.limit));
-              this.plants.set(data.plants);
-            }
+          next: () => {
+            this.isLoading.set(false);
           },
           error: (err) => {
             this.isLoading.set(false);

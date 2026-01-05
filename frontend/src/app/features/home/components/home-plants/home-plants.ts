@@ -8,7 +8,6 @@ import {
 } from '@angular/core';
 import { Container } from '@/app/layout/container/container';
 import { PlantService } from '@/app/services/plant.service';
-import { Plant, PlantResponse } from '@/app/models/types/plant.type';
 import { PlantCard } from '@/app/shared/plant-card/plant-card';
 import { CardSkeletonCard } from '@/app/shared/card-skeleton-card/card-skeleton-card';
 
@@ -23,28 +22,22 @@ export class HomePlants {
 
   isLoading = signal<boolean>(false);
   errorState = signal<string | null>(null);
-  monthlyInspirationsPlants = signal<Plant[]>([]);
+  monthlyInspirationsPlants = this.plantsService.plants;
 
   plantsLimit = Array.from({ length: 4 });
-
   sliderRef = viewChild<ElementRef<HTMLUListElement>>('plantsSliderRef');
 
   constructor() {
     effect(() => {
       this.isLoading.set(true);
-      this.errorState.set(null);
 
       this.plantsService.getPlants().subscribe({
-        next: (data: PlantResponse) => {
+        next: () => {
           this.isLoading.set(false);
-          this.monthlyInspirationsPlants.set(
-            data.plants.slice(0, this.plantsLimit.length)
-          );
         },
         error: (err) => {
           this.isLoading.set(false);
           this.errorState.set(err?.error?.message || 'Something went wrong.');
-          console.error(err);
         },
       });
     });

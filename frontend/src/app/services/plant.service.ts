@@ -1,11 +1,15 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import {
   DetailedPlantPageResponse,
+  Plant,
   PlantResponse,
 } from '@/app/models/types/plant.type';
-import { Observable } from 'rxjs';
+import { Observable, switchMap, tap } from 'rxjs';
 import { FiltersType } from '../models/types/filters.type';
+import { ReviewService } from './review.service';
+import { CategoryService } from './category.service';
+import { similarPlantsResponse } from '../models/types/category.type';
 
 @Injectable({
   providedIn: 'root',
@@ -13,7 +17,44 @@ import { FiltersType } from '../models/types/filters.type';
 export class PlantService {
   private serverUrl = 'http://localhost:3000/api/v1/plants';
 
+  private reviewService = inject(ReviewService);
+  private categoryService = inject(CategoryService);
+
   constructor(private httpClient: HttpClient) {}
+
+  // Private variables
+  private _plants = signal<Plant[]>([]);
+  private _plant = signal<Plant | null>(null);
+  private _recommendedPlants = signal<Plant[]>([]);
+  private _totalPlants = signal<number>(0);
+  private _totalPages = signal<number>(0);
+
+  // Public (readonly) variables
+  readonly plants = this._plants.asReadonly();
+  readonly plant = this._plant.asReadonly();
+  readonly recommendedPlants = this._recommendedPlants.asReadonly();
+  readonly totalPlants = this._totalPlants.asReadonly();
+  readonly totalPages = this._totalPages.asReadonly();
+
+  setPlants(plants: Plant[]) {
+    this._plants.set(plants);
+  }
+
+  setPlant(plant: Plant) {
+    this._plant.set(plant);
+  }
+
+  setRecommendedPlants(plants: Plant[]) {
+    this._recommendedPlants.set(plants);
+  }
+
+  setTotalPlants(totalPlants: number) {
+    this._totalPlants.set(totalPlants);
+  }
+
+  setTotalPages(count: number, limit: number) {
+    this._totalPages.set(Math.ceil(count / limit));
+  }
 
   getPlants(
     page?: number,
@@ -29,17 +70,49 @@ export class PlantService {
       }
     }
 
-    return this.httpClient.get<PlantResponse>(
-      `${this.serverUrl}?page=${page}`,
-      {
+    return this.httpClient
+      .get<PlantResponse>(`${this.serverUrl}?page=${page}`, {
         params: httpParams,
-      }
-    );
+      })
+      .pipe(
+        tap((data: PlantResponse) => {
+          if (Array.isArray(data.plants)) {
+            this.setPlants(data.plants);
+          }
+          this.setTotalPlants(data.count);
+          this.setTotalPages(data.count, data.limit);
+        })
+      );
   }
 
-  getPlant(slug: string): Observable<DetailedPlantPageResponse> {
-    return this.httpClient.get<DetailedPlantPageResponse>(
-      `${this.serverUrl}/${slug}`
-    );
+  getPlant(
+    slug: string
+  ): Observable<DetailedPlantPageResponse | similarPlantsResponse> {
+    return this.httpClient
+      .get<DetailedPlantPageResponse>(`${this.serverUrl}/${slug}`)
+      .pipe(
+        tap((data: DetailedPlantPageResponse) => {
+          this.setPlant(data.plant);
+
+          // Setting Plant Reviews
+          if (Array.isArray(data.reviews)) {
+            this.reviewService.setReviews(data.reviews);
+          }
+        })
+      )
+      .pipe(
+        // Nested Call to get Recommended Plants
+        switchMap((data: DetailedPlantPageResponse) => {
+          return this.categoryService.getCategory(data.plant.category.slug);
+        })
+      )
+      .pipe(
+        // Tap Operator performs a side effect and set up the Recommended Plants data
+        tap((data: similarPlantsResponse) => {
+          if (Array.isArray(data.categoryPlants)) {
+            this.setRecommendedPlants(data.categoryPlants.slice(0, 4));
+          }
+        })
+      );
   }
 }

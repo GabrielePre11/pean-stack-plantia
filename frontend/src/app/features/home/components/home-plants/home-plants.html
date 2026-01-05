@@ -38,7 +38,8 @@
 
       <!--============== Plants Slider ==============-->
       @if(!errorState() && !isLoading() && monthlyInspirationsPlants().length >
-      0) { @for (plant of monthlyInspirationsPlants(); track plant.id) {
+      0) { @for (plant of monthlyInspirationsPlants().slice(0,
+      plantsLimit.length); track plant.id) {
       <app-plant-card [plant]="plant" />
       } }
     </ul>
