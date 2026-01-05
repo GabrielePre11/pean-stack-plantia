@@ -58,7 +58,8 @@ export class PlantService {
 
   getPlants(
     page?: number,
-    filters?: Partial<FiltersType>
+    filters?: Partial<FiltersType>,
+    search?: string
   ): Observable<PlantResponse> {
     let httpParams = new HttpParams();
 
@@ -68,6 +69,10 @@ export class PlantService {
           httpParams = httpParams.set(key, value.toString());
         }
       }
+    }
+
+    if (search) {
+      httpParams = httpParams.set('search', search);
     }
 
     return this.httpClient

@@ -1,19 +1,22 @@
 <form
   class="absolute flex sm:hidden items-center bg-transparent left-0 w-full transition-transform duration-200 ease-in-out"
   [ngClass]="isOpen() ? 'translate-y-0 visible' : '-translate-y-100 pointer-events-none'"
+  (submit)="onSubmit($event, userQuery.value)"
 >
   <input
     type="search"
+    name="userQuery"
     inputmode="latin"
     placeholder="Search..."
     class="relative flex items-center text-xl w-full py-3 px-4 bg-black/30 backdrop-blur-xs border-y border-y-border-darkest focus:outline-none"
+    #userQuery
   />
 
   <!-- Search Icon -->
   <button
     aria-label="Search"
-    aria-hidden="true"
     class="absolute right-4 grid place-items-center p-1.5 border border-border-medium rounded-full transition-colors duration-200 hover:bg-accent hover:border-bg-contrast hover:text-bg-contrast"
+    (click)="onSubmit($event, userQuery.value)"
   >
     <svg
       xmlns="http://www.w3.org/2000/svg"

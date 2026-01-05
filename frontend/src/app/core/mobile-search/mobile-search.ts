@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, input, output } from '@angular/core';
+import { Component, inject, input, output } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-mobile-search',
@@ -8,10 +9,22 @@ import { Component, input, output } from '@angular/core';
   styleUrl: './mobile-search.css',
 })
 export class MobileSearch {
-  isOpen = input<boolean>();
+  private router = inject(Router);
+
+  // Input & Output
+  isOpen = input.required<boolean>();
   close = output<boolean>();
 
+  // Methods
   closeMobileSearch() {
     this.close.emit(false);
+  }
+
+  onSubmit(e: Event, userQuery: string) {
+    e.preventDefault();
+
+    if (!userQuery.trim()) return;
+    this.router.navigate(['/search', userQuery]);
+    this.closeMobileSearch();
   }
 }

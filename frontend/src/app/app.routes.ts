@@ -22,6 +22,12 @@ export const routes: Routes = [
       ).then((m) => m.ShopPlantDetailPage),
   },
 
+  {
+    path: 'search/:q',
+    loadComponent: () =>
+      import('@/app/features/search/search').then((m) => m.Search),
+  },
+
   //============== User Wishlist & Cart Routes [Protected by authGuard] ==============//
   {
     path: 'user',

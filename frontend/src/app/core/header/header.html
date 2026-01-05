@@ -201,5 +201,6 @@
     role="searchbox"
     [attr.aria-expanded]="isMobileMenuOpen()"
     [isOpen]="isMobileSearchOpen()"
+    (close)="toggleMobileSearch()"
   />
 </header>
