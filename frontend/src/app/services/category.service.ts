@@ -1,10 +1,11 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import {
+  Category,
   CategoryResponse,
   similarPlantsResponse,
 } from '@/app/models/types/category.type';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -14,8 +15,24 @@ export class CategoryService {
 
   constructor(private httpClient: HttpClient) {}
 
+  private _categories = signal<Category[]>([]);
+  readonly categories = this._categories.asReadonly();
+
+  popularCategories = ['ficus', 'palm', 'fern', 'begonia'];
+
+  setCategories(categories: Category[]) {
+    this._categories.set(categories);
+  }
+
   getCategories(): Observable<CategoryResponse> {
-    return this.httpClient.get<CategoryResponse>(`${this.serverUrl}`);
+    return this.httpClient.get<CategoryResponse>(`${this.serverUrl}`).pipe(
+      tap(({ categories }) => {
+        const filteredCategories = categories.filter((category) =>
+          this.popularCategories.includes(category.slug)
+        );
+        this.setCategories(filteredCategories);
+      })
+    );
   }
 
   getCategory(slug: string): Observable<similarPlantsResponse> {
