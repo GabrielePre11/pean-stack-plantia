@@ -89,6 +89,10 @@
   @apply grid place-items-center p-1.5 border border-transparent hover:border-icon-darker transition-colors duration-200 ease-in-out;
 }
 
+.mobile-menu-link {
+  @apply cursor-pointer text-bg-contrast hover:text-accent hover:bg-bg-contrast text-xl px-5 py-3 border-b border-b-border-medium font-normal transition-colors duration-200 ease-in-out;
+}
+
 .overlay {
   @apply fixed top-0 left-0 w-full h-full bg-black opacity-20 z-30;
 }

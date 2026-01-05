@@ -41,7 +41,10 @@
     <ul class="flex flex-col">
       @for (link of mobileMenuLinks.slice(0, 4); track link.name) {
       <li
-        class="text-bg-contrast hover:text-accent hover:bg-bg-contrast text-xl px-5 py-3 border-b border-b-border-medium font-normal transition-colors duration-200 ease-in-out"
+        class="mobile-menu-link"
+        [routerLink]="link.path"
+        routerLinkActive="text-accent font-semibold"
+        [routerLinkActiveOptions]="{exact: true}"
         (click)="closeMobileMenu()"
       >
         <a
@@ -54,11 +57,14 @@
       }
     </ul>
 
-    @if (!user()) {
+    @if (user()) {
     <ul class="flex flex-col mt-5">
       @for (link of mobileMenuLinks.slice(4, 6); track link.name) {
       <li
-        class="text-bg-contrast hover:text-accent hover:bg-bg-contrast text-xl px-5 py-3 border-b border-b-border-medium font-normal transition-colors duration-200 ease-in-out"
+        class="mobile-menu-link"
+        [routerLink]="link.path"
+        routerLinkActive="text-accent"
+        [routerLinkActiveOptions]="{exact: true}"
         (click)="closeMobileMenu()"
       >
         <a
@@ -77,7 +83,10 @@
       <!--============== User Check ==============-->
       @if(!user() && link.path === '/auth/login') {
       <li
-        class="text-bg-contrast hover:text-accent hover:bg-bg-contrast text-xl px-5 py-3 border-b border-b-border-medium font-normal transition-colors duration-200 ease-in-out"
+        class="mobile-menu-link"
+        [routerLink]="link.path"
+        routerLinkActive="text-accent"
+        [routerLinkActiveOptions]="{exact: true}"
         (click)="closeMobileMenu()"
       >
         <a
