@@ -117,8 +117,12 @@
   @apply grid place-items-center p-2 bg-bg text-text rounded-xs transition-colors duration-200 ease-in-out hover:bg-bg-darker;
 }
 
-.review-slider-arrow {
-  @apply grid place-items-center p-1.5 bg-transparent border border-border-medium rounded-xs backdrop-blur-sm;
+.review-slider-arrow-left {
+  @apply absolute grid place-items-center p-1.5 top-1/2 -translate-y-1/2 left-2 bg-transparent border border-border-medium rounded-xs backdrop-blur-sm;
+}
+
+.review-slider-arrow-right {
+  @apply absolute grid place-items-center p-1.5 top-1/2 -translate-y-1/2 right-2 bg-transparent border border-border-medium rounded-xs backdrop-blur-sm;
 }
 
 .instruction-li {

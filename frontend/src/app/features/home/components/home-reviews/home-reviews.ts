@@ -1,16 +1,14 @@
 import {
   Component,
   computed,
-  effect,
   ElementRef,
   inject,
+  OnInit,
   signal,
   viewChild,
 } from '@angular/core';
 import { Container } from '@/app/layout/container/container';
 import { ReviewService } from '@/app/services/review.service';
-import { HomeReviewsResponse } from '@/app/models/types/review.type';
-import { Review } from '@/app/models/types/review.type';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -19,19 +17,38 @@ import { CommonModule } from '@angular/common';
   templateUrl: './home-reviews.html',
   styleUrl: './home-reviews.css',
 })
-export class HomeReviews {
+export class HomeReviews implements OnInit {
   private reviewsService = inject(ReviewService);
 
+  // States
   isLoading = signal<boolean>(false);
   errorState = signal<string | null>(null);
 
-  reviews = signal<Review[]>([]);
+  // Reviews & Average
+  reviews = this.reviewsService.reviews;
   reviewsAverage = computed(
     () =>
       this.reviews().reduce((acc, review) => acc + review.rating, 0) /
       this.reviews().length
   );
 
+  // On Init
+  ngOnInit(): void {
+    this.isLoading.set(true);
+    this.errorState.set(null);
+
+    this.reviewsService.getHomeReviews().subscribe({
+      next: () => {
+        this.isLoading.set(false);
+      },
+      error: (err) => {
+        this.isLoading.set(false);
+        this.errorState.set(err?.error?.message || 'Something went wrong.');
+      },
+    });
+  }
+
+  // Stars Limit
   stars = Array.from({ length: 5 });
 
   // Current Slide
@@ -67,23 +84,5 @@ export class HomeReviews {
   nextSlide() {
     const nextIndex = (this.currentIndex() + 1) % this.reviews().length;
     this.goToSlide(nextIndex);
-  }
-
-  constructor() {
-    effect(() => {
-      this.isLoading.set(true);
-      this.errorState.set(null);
-
-      this.reviewsService.getHomeReviews().subscribe({
-        next: (data: HomeReviewsResponse) => {
-          this.isLoading.set(false);
-          this.reviews.set(data.reviews);
-        },
-        error: (err) => {
-          this.isLoading.set(false);
-          this.errorState.set(err?.error?.message || 'Something went wrong.');
-        },
-      });
-    });
   }
 }

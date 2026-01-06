@@ -24,7 +24,9 @@ export class ReviewService {
   }
 
   getHomeReviews(): Observable<HomeReviewsResponse> {
-    return this.httpClient.get<HomeReviewsResponse>(`${this.serverUrl}`);
+    return this.httpClient
+      .get<HomeReviewsResponse>(`${this.serverUrl}`)
+      .pipe(tap((data: HomeReviewsResponse) => this.setReviews(data.reviews)));
   }
 
   createReview({

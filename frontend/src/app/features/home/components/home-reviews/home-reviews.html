@@ -42,7 +42,7 @@
       role="slider"
       #reviewsSliderRef
     >
-      @for (review of reviews().slice(0, 10); track review.id) {
+      @for (review of reviews().slice(0, 15); track review.id) {
       <!--============== Review Slide ==============-->
       <li
         class="flex flex-col items-center justify-center gap-2.5 md:gap-3 lg:gap-5 min-h-62.5 shrink-0 w-full"
@@ -61,52 +61,48 @@
     </ul>
 
     <!--============== Slider Arrows ==============-->
-    <div
-      class="absolute flex items-center justify-between top-[50%] -translate-y-[50%] w-full px-1.5 lg:px-4"
+    <button
+      class="review-slider-arrow-left group"
+      aria-label="Scroll to Left"
+      (click)="prevSlide()"
     >
-      <button
-        class="review-slider-arrow group"
-        aria-label="Scroll to Left"
-        (click)="prevSlide()"
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="25"
+        height="25"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="lucide lucide-arrow-left-icon lucide-arrow-left lg:size-8 xl:size-9 transition-transform group-hover:-translate-x-1.5 duration-200 ease-in-out"
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="25"
-          height="25"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          class="lucide lucide-arrow-left-icon lucide-arrow-left lg:size-8 xl:size-9 transition-transform group-hover:-translate-x-1.5 duration-200 ease-in-out"
-        >
-          <path d="m12 19-7-7 7-7" />
-          <path d="M19 12H5" />
-        </svg>
-      </button>
+        <path d="m12 19-7-7 7-7" />
+        <path d="M19 12H5" />
+      </svg>
+    </button>
 
-      <button
-        class="review-slider-arrow group"
-        aria-label="Scroll to Right"
-        (click)="nextSlide()"
+    <button
+      class="review-slider-arrow-right group"
+      aria-label="Scroll to Right"
+      (click)="nextSlide()"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="25"
+        height="25"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="lucide lucide-arrow-right-icon lucide-arrow-right lg:size-8 xl:size-9 transition-transform group-hover:translate-x-1.5 duration-200 ease-in-out"
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="25"
-          height="25"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          class="lucide lucide-arrow-right-icon lucide-arrow-right lg:size-8 xl:size-9 transition-transform group-hover:translate-x-1.5 duration-200 ease-in-out"
-        >
-          <path d="M5 12h14" />
-          <path d="m12 5 7 7-7 7" />
-        </svg>
-      </button>
-    </div>
+        <path d="M5 12h14" />
+        <path d="m12 5 7 7-7 7" />
+      </svg>
+    </button>
   </div>
 </section>
