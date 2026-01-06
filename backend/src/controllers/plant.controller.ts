@@ -12,19 +12,22 @@ export const getPlants = async (
 ) => {
   try {
     //============ Filters ============//
-    const { categoryId, sort, careLevel, light, water, page, limit, search } =
+    const { slug, sort, careLevel, light, water, page, limit, search } =
       req.query;
 
     const where: Prisma.PlantWhereInput = {};
     const orderBy: Prisma.PlantOrderByWithRelationInput = {};
 
-    // Filter by category
-    if (categoryId) {
-      // We need to convert to Number() because in a query param. everything is a string.
-      if (Array.isArray(categoryId)) {
-        where["categoryId"] = { in: categoryId.map((id) => Number(id)) };
+    // Filter by category (slug)
+    if (slug) {
+      if (Array.isArray(slug)) {
+        where["category"] = {
+          slug: { in: slug },
+        };
       } else {
-        where["categoryId"] = Number(categoryId);
+        where["category"] = {
+          slug: slug,
+        };
       }
     }
 

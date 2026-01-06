@@ -15,7 +15,7 @@ export interface PlantBody {
 }
 
 export interface PlantQuery {
-  categoryId: number;
+  slug: string;
   sort: "newest" | "oldest" | "priceAsc" | "priceDesc";
   careLevel: CareLevel;
   light: LightType;

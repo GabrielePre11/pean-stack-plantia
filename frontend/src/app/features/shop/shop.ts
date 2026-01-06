@@ -41,7 +41,7 @@ export class Shop {
 
   // Filters
   selectedFilters = signal<FiltersType>({
-    category: null,
+    slug: null,
     sort: null,
     careLevel: null,
     light: null,

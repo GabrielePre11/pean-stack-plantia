@@ -1,7 +1,7 @@
 export const PLANTS_FILTERS = [
   {
     name: 'Category',
-    value: 'category',
+    value: 'slug',
     options: [
       { name: 'Monstera', value: 'monstera' },
       { name: 'Philodendron', value: 'philodendron' },
