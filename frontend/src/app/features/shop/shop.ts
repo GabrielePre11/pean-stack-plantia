@@ -1,16 +1,23 @@
 import { Component, effect, inject, signal } from '@angular/core';
 import { Container } from '@/app/layout/container/container';
 import { PlantService } from '@/app/services/plant.service';
-import { Plant, PlantResponse } from '@/app/models/types/plant.type';
 import { CardSkeletonCard } from '@/app/shared/card-skeleton-card/card-skeleton-card';
 import { PlantCard } from '@/app/shared/plant-card/plant-card';
 import { FiltersType } from '@/app/models/types/filters.type';
 import { ShopFilters } from './shop-filters/shop-filters';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-shop',
-  imports: [Container, CardSkeletonCard, PlantCard, ShopFilters, CommonModule],
+  imports: [
+    Container,
+    RouterModule,
+    CardSkeletonCard,
+    PlantCard,
+    ShopFilters,
+    CommonModule,
+  ],
   templateUrl: './shop.html',
   styleUrl: './shop.css',
 })

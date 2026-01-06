@@ -2,10 +2,15 @@
   <!--============== Heading ==============-->
   <div class="text-text bg-bg pt-28 pb-14">
     <app-container [className]="'flex flex-col gap-3.5 '">
+      <!--============== Title ==============-->
       <h3 class="text-3xl lg:text-4xl font-medium">All plants</h3>
+
+      <!--============== Subtitle ==============-->
       <h5 class="text-2xl lg:text-3xl font-medium font-secondary text-mustard">
         Find your favorite plant
       </h5>
+
+      <!--============== Description ==============-->
       <p class="max-w-md xl:max-w-lg text-sm sm:text-lg">
         This is where you'll find&nbsp;<em>all</em>
         our plants in one place — from rare finds to easy-care classics. Browse
@@ -19,11 +24,13 @@
   <app-container>
     <!--============== Filters & Informations ==============-->
     <div class="relative flex items-center justify-between mt-8">
+      <!--============== Toggle Filters Button ==============-->
       <button
         class="inline-flex items-center px-4 py-2 gap-2 text-text text-lg bg-mustard rounded-xs transition-colors duration-200 ease-in-out hover:bg-mustard/90 group"
         [attr.aria-label]="filtersOpen() ? 'Close Filters' : 'Open Filters'"
         (click)="toggleFilters()"
       >
+        <!--============== Filters Icon ==============-->
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="28"
@@ -51,12 +58,34 @@
         Filters
       </button>
 
+      <!--============== Filters Component ==============-->
       <app-shop-filters
         [filtersOpen]="filtersOpen()"
         (onChangeFilters)="updateFilters($event.type, $event.value)"
         (onCloseFilters)="toggleFilters()"
       />
     </div>
+
+    <!--============== No Plants ==============-->
+    @if (!errorState() && !isLoading() && plants().length === 0) {
+    <div class="grid place-items-center gap-8 mt-16">
+      <img
+        src="/empty-wishlist.svg"
+        alt="Empty Wishlist"
+        class="max-w-150 w-full object-center"
+      />
+      <div class="flex flex-col gap-2">
+        <small class="text-lg xl:text-xl text-bg-darker"
+          >No Plants found.
+        </small>
+        <button
+          class="inline-block w-max items-center justify-center place-self-center rounded-full text-lg text-bg bg-mustard px-4 py-0.5 transition-colors duration-200 ease-in-out hover:bg-mustard/90"
+        >
+          <a routerLink="/">Go Home</a>
+        </button>
+      </div>
+    </div>
+    }
 
     <!--============== Plants ==============-->
     <ul
