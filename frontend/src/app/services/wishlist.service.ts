@@ -15,6 +15,10 @@ export class WishlistService {
   private _wishlistItems = signal<Plant[]>([]);
   readonly wishlistItems = this._wishlistItems.asReadonly();
 
+  setWishlistItems(items: Plant[]) {
+    this._wishlistItems.set(items);
+  }
+
   /**
    * @ With Credentials 'cause the server will check
    * @ if the user is logged in (in the controller: const userId = req.user?.id)
@@ -27,7 +31,7 @@ export class WishlistService {
       })
       .pipe(
         tap((data: WishlistResponse) => {
-          this._wishlistItems.set(data.items);
+          this.setWishlistItems(data.items);
         })
       );
   }
@@ -39,7 +43,7 @@ export class WishlistService {
       (existingPlant) => existingPlant.id === plant.id
     );
 
-    this._wishlistItems.set(
+    this.setWishlistItems(
       alreadyExists
         ? current.filter((existingPlant) => existingPlant.id !== plant.id)
         : [...current, plant]
@@ -53,7 +57,7 @@ export class WishlistService {
       )
       .pipe(
         tap((data: WishlistResponse) => {
-          this._wishlistItems.set(data.items);
+          this.setWishlistItems(data.items);
         })
       );
   }

@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, signal } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import {
   AuthResponse,
   SignIn,
@@ -7,16 +7,23 @@ import {
   SignUp,
   User,
 } from '@/app/models/types/auth.type';
-import { map, tap } from 'rxjs';
+import { map, Observable, switchMap, tap } from 'rxjs';
+import { WishlistService } from './wishlist.service';
+import { WishlistResponse } from '../models/types/wishlist.type';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   private serverUrl = 'http://localhost:3000/api/v1/auth';
+  private wishlistService = inject(WishlistService);
 
   private _user = signal<User | null>(null);
   readonly user = this._user.asReadonly();
+
+  setUser(user: User | null) {
+    this._user.set(user);
+  }
 
   constructor(private httpClient: HttpClient) {}
 
@@ -35,18 +42,32 @@ export class AuthService {
    *  - tap() osserva il valore e permette di eseguire un side-effect.
    */
 
-  checkAuth() {
-    return this.httpClient
-      .get<AuthResponse>(`${this.serverUrl}/check-auth`, {
-        withCredentials: true,
-      })
-      .pipe(
-        map((res) => res.user),
-        tap((user) => this._user.set(user))
-      );
+  checkAuth(): Observable<AuthResponse | WishlistResponse> {
+    return (
+      this.httpClient
+        .get<AuthResponse>(`${this.serverUrl}/check-auth`, {
+          withCredentials: true,
+        })
+        .pipe(
+          map((res) => res.user),
+          tap((user) => this.setUser(user))
+        )
+        /**
+         * @ switchMap allows us to make an annidate call to another Observable,
+         * @ in this case after we set the user, we need to get its wishlist items (if available),
+         * @ so that is syncronized with the wishlistItems signal
+         * @ (before doing that the dark green heart in the Plant Card wasn't syncronized, there was a delay and the user had to reload the page to see the changes).
+         */
+        .pipe(switchMap(() => this.wishlistService.getUserWishlist()))
+        .pipe(
+          tap((data: WishlistResponse) => {
+            this.wishlistService.setWishlistItems(data.items);
+          })
+        )
+    );
   }
 
-  signIn({ email, password }: SignIn) {
+  signIn({ email, password }: SignIn): Observable<SignInUpResponse> {
     return this.httpClient.post<SignInUpResponse>(
       `${this.serverUrl}/sign-in`,
       {
@@ -57,7 +78,7 @@ export class AuthService {
     );
   }
 
-  signUp({ name, email, password }: SignUp) {
+  signUp({ name, email, password }: SignUp): Observable<SignInUpResponse> {
     return this.httpClient.post<SignInUpResponse>(
       `${this.serverUrl}/sign-up`,
       {
@@ -72,6 +93,6 @@ export class AuthService {
   signOut() {
     return this.httpClient
       .post(`${this.serverUrl}/sign-out`, {}, { withCredentials: true })
-      .pipe(tap(() => this._user.set(null)));
+      .pipe(tap(() => this.setUser(null)));
   }
 }
