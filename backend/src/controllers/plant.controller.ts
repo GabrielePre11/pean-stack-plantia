@@ -49,7 +49,7 @@ export const getPlants = async (
 
     //============ Pagination ============//
     const pageNumber = Number(page) || 1;
-    const plantsLimit = Number(limit) || 10;
+    const plantsLimit = Number(limit) || 8;
     const skip = (pageNumber - 1) * plantsLimit;
     const take = plantsLimit;
 

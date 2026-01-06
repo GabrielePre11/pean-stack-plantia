@@ -4,7 +4,7 @@
     class="relative aspect-square w-full overflow-hidden cursor-pointer rounded-xs"
   >
     <img
-      [src]="plant().image"
+      [src]="plant().image || '/no-img.png'"
       [alt]="plant().name + ' image'"
       loading="lazy"
       [routerLink]="['/shop/plants', plant().slug || '']"

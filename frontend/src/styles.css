@@ -113,8 +113,12 @@
   @apply text-sm xl:text-lg text-red-500 mt-3 place-self-start;
 }
 
-.slider-arrow {
-  @apply grid place-items-center p-2 bg-bg text-text rounded-xs transition-colors duration-200 ease-in-out hover:bg-bg-darker;
+.slider-arrow-left {
+  @apply absolute grid lg:hidden place-items-center top-[65%] -translate-y-[65%] left-2 p-2 bg-bg text-text rounded-xs transition-colors duration-200 ease-in-out hover:bg-bg-darker;
+}
+
+.slider-arrow-right {
+  @apply absolute grid lg:hidden place-items-center top-[65%] -translate-y-[65%] right-2 p-2 bg-bg text-text rounded-xs transition-colors duration-200 ease-in-out hover:bg-bg-darker;
 }
 
 .review-slider-arrow-left {

@@ -25,7 +25,7 @@ export class Shop {
 
   // Plants & Plants Limit
   plants = this.plantService.plants;
-  plantsLimit = Array.from({ length: 10 });
+  plantsLimit = Array.from({ length: 8 });
 
   // Pagination
   currentPage = signal<number>(1);
