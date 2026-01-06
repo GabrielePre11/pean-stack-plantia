@@ -48,26 +48,6 @@ export class Shop {
     water: null,
   });
 
-  goToPrevPage() {
-    if (this.currentPage() > 1) this.currentPage.update((prev) => prev - 1);
-  }
-
-  goToNextPage() {
-    if (this.currentPage() < this.totalPages())
-      this.currentPage.update((prev) => prev + 1);
-  }
-
-  toggleFilters() {
-    this.filtersOpen.update((prev) => !prev);
-  }
-
-  updateFilters(key: string, value: string | null) {
-    this.selectedFilters.update((prev) => ({
-      ...prev,
-      [key]: value,
-    }));
-  }
-
   constructor() {
     effect(() => {
       this.isLoading.set(true);
@@ -85,5 +65,27 @@ export class Shop {
           },
         });
     });
+  }
+
+  // Pagination Methods
+  goToPrevPage() {
+    if (this.currentPage() > 1) this.currentPage.update((prev) => prev - 1);
+  }
+
+  goToNextPage() {
+    if (this.currentPage() < this.totalPages())
+      this.currentPage.update((prev) => prev + 1);
+  }
+
+  // Filters Methods
+  toggleFilters() {
+    this.filtersOpen.update((prev) => !prev);
+  }
+
+  updateFilters(key: string, value: string | null) {
+    this.selectedFilters.update((prev) => ({
+      ...prev,
+      [key]: value,
+    }));
   }
 }
