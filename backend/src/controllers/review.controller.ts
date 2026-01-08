@@ -1,5 +1,5 @@
-import { prisma } from "@/lib/prisma";
-import { ReviewBody } from "@/types/review.type";
+import { prisma } from "../lib/prisma";
+import { ReviewBody } from "../types/review.type";
 import { NextFunction, Request, Response } from "express";
 
 export const getHomeReviews = async (

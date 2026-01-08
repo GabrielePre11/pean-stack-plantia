@@ -4,9 +4,9 @@ import {
   getPlant,
   getPlants,
   updatePlant,
-} from "@/controllers/plant.controller";
-import { roleMiddlware } from "@/middlewares/role.middleware";
-import { tokenMiddleare } from "@/middlewares/token.middleware";
+} from "../controllers/plant.controller";
+import { roleMiddlware } from "../middlewares/role.middleware";
+import { tokenMiddleare } from "../middlewares/token.middleware";
 import express from "express";
 
 const router = express.Router();

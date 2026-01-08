@@ -4,8 +4,8 @@ import {
   getHomeReviews,
   getReviews,
   updateReview,
-} from "@/controllers/review.controller";
-import { tokenMiddleare } from "@/middlewares/token.middleware";
+} from "../controllers/review.controller";
+import { tokenMiddleare } from "../middlewares/token.middleware";
 import express from "express";
 
 const router = express.Router();

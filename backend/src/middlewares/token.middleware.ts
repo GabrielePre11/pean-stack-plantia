@@ -1,4 +1,4 @@
-import { JWT_PayLoad_Type } from "@/types/auth.type";
+import { JWT_PayLoad_Type } from "../types/auth.type";
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 

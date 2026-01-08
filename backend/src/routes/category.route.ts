@@ -4,9 +4,9 @@ import {
   getCategories,
   getCategory,
   updateCategory,
-} from "@/controllers/category.controller";
-import { roleMiddlware } from "@/middlewares/role.middleware";
-import { tokenMiddleare } from "@/middlewares/token.middleware";
+} from "../controllers/category.controller";
+import { roleMiddlware } from "../middlewares/role.middleware";
+import { tokenMiddleare } from "../middlewares/token.middleware";
 import express from "express";
 
 const router = express.Router();

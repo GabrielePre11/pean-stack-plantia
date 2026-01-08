@@ -1,6 +1,5 @@
-import { prisma } from "@/lib/prisma";
+import { prisma } from "../lib/prisma";
 import { NextFunction, Request, Response } from "express";
-import { updateCategory } from "./category.controller";
 
 export const getWishlist = async (
   req: Request,

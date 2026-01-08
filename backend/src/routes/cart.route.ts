@@ -3,8 +3,8 @@ import {
   clearCart,
   getCart,
   removeFromCart,
-} from "@/controllers/cart.controller";
-import { tokenMiddleare } from "@/middlewares/token.middleware";
+} from "../controllers/cart.controller";
+import { tokenMiddleare } from "../middlewares/token.middleware";
 import express from "express";
 
 const router = express.Router();

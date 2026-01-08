@@ -1,4 +1,4 @@
-import { prisma } from "@/lib/prisma";
+import { prisma } from "../lib/prisma";
 import { NextFunction, Request, Response } from "express";
 import slugify from "slugify";
 

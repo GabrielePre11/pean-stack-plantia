@@ -1,8 +1,8 @@
-import { prisma } from "@/lib/prisma";
-import { SignInBody, SignUpBody } from "@/types/auth.type";
+import { prisma } from "../lib/prisma";
+import { SignInBody, SignUpBody } from "../types/auth.type";
 import { Request, Response, NextFunction } from "express";
 import bcrypt from "bcryptjs";
-import { generateToken } from "@/utils/generateToken";
+import { generateToken } from "../utils/generateToken";
 
 export const signUp = async (
   req: Request<{}, {}, SignUpBody>,

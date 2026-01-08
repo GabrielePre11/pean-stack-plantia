@@ -1,4 +1,4 @@
-import { prisma } from "@/lib/prisma";
+import { prisma } from "../lib/prisma";
 import { Request, Response, NextFunction } from "express";
 
 export const roleMiddlware = async (

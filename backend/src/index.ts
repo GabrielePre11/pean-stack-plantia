@@ -5,12 +5,12 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import path from "path";
 
-import authRoute from "@/routes/auth.route";
-import wishlistRoute from "@/routes/wishlist.route";
-import cartRoute from "@/routes/cart.route";
-import categoryRoute from "@/routes/category.route";
-import reviewRoute from "@/routes/review.route";
-import plantRoute from "@/routes/plant.route";
+import authRoute from "./routes/auth.route";
+import wishlistRoute from "./routes/wishlist.route";
+import cartRoute from "./routes/cart.route";
+import categoryRoute from "./routes/category.route";
+import reviewRoute from "./routes/review.route";
+import plantRoute from "./routes/plant.route";
 
 import { errorMiddleware } from "./middlewares/error.middleware";
 
@@ -46,9 +46,15 @@ app.use(`${API_URL}/plants`, plantRoute);
 
 //============ Production ============//
 if (process.env.NODE_ENV === "production") {
-  const frontendPath = path.join(process.cwd(), "frontend/dist/frontend");
-  app.use(express.static(frontendPath));
+  const frontendPath = path.join(
+    process.cwd(),
+    "frontend",
+    "dist",
+    "frontend",
+    "browser"
+  );
 
+  app.use(express.static(frontendPath));
   app.get(/.*/, (req, res) => {
     res.sendFile(path.join(frontendPath, "index.html"));
   });

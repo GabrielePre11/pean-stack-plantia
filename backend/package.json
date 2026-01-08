@@ -6,8 +6,9 @@
   "main": "dist/index.js",
   "scripts": {
     "dev": "tsx watch src/index.ts",
-    "start": "NODE_ENV=production node dist/index.js",
-    "build": "tsc"
+    "build": "tsc",
+    "build:all": "pnpm run build && pnpm --prefix ../frontend run build --configuration production",
+    "start": "cross-env NODE_ENV=production node dist/index.js"
   },
   "keywords": [],
   "author": "Prestano Gabriele",
@@ -36,6 +37,7 @@
     "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^25.0.2",
     "@types/pg": "^8.16.0",
+    "cross-env": "^10.1.0",
     "dotenv": "latest",
     "nodemon": "^3.1.11",
     "prisma": "^7.1.0",

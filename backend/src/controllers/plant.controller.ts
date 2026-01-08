@@ -1,6 +1,6 @@
-import { Prisma } from "@/generated/prisma/client";
-import { prisma } from "@/lib/prisma";
-import { PlantBody, PlantQuery } from "@/types/plant.type";
+import { Prisma } from "../generated/prisma/client";
+import { prisma } from "../lib/prisma";
+import { PlantBody, PlantQuery } from "../types/plant.type";
 import { NextFunction, Request, Response } from "express";
 import slugify from "slugify";
 import Decimal from "decimal.js";

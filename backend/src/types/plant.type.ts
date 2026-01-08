@@ -1,4 +1,4 @@
-import { CareLevel, WaterType, LightType } from "@/generated/prisma/enums";
+import { CareLevel, WaterType, LightType } from "../generated/prisma/enums";
 
 export interface PlantBody {
   name: string;
