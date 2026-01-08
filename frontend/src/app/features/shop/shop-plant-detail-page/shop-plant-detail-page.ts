@@ -167,7 +167,7 @@ export class ShopPlantDetailPage implements OnInit {
         message: this.message.value ?? '',
       })
       .subscribe({
-        next: (data: ReviewResponse) => {
+        next: () => {
           this.isLoading.set(false);
           this.errorState.set(null);
           this.isFormSubmitted.set(false);

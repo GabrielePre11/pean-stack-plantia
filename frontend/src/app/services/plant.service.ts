@@ -115,8 +115,13 @@ export class PlantService {
       .pipe(
         // Tap Operator performs a side effect and set up the Recommended Plants data
         tap((data: similarPlantsResponse) => {
+          console.log(data);
           if (Array.isArray(data.categoryPlants)) {
-            this.setRecommendedPlants(data.categoryPlants.slice(0, 4));
+            this.setRecommendedPlants(
+              data.categoryPlants
+                .filter((plant) => plant.id !== data.categoryPlants[0].id)
+                .slice(0, 4)
+            );
           }
         })
       );
