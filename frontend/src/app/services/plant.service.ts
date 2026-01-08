@@ -115,11 +115,10 @@ export class PlantService {
       .pipe(
         // Tap Operator performs a side effect and set up the Recommended Plants data
         tap((data: similarPlantsResponse) => {
-          console.log(data);
           if (Array.isArray(data.categoryPlants)) {
             this.setRecommendedPlants(
               data.categoryPlants
-                .filter((plant) => plant.id !== data.categoryPlants[0].id)
+                .filter((currentPlant) => currentPlant.id !== this.plant()?.id)
                 .slice(0, 4)
             );
           }
