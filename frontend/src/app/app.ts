@@ -3,10 +3,13 @@ import { RouterOutlet } from '@angular/router';
 import { Header } from '@/app/core/header/header';
 import { AuthService } from '@/app/services/auth.service';
 import { Footer } from './core/footer/footer';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Header, Footer],
+  imports: [RouterOutlet, Header, Footer, ToastModule],
+  providers: [MessageService],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })

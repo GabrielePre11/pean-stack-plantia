@@ -5,6 +5,7 @@ import { ReviewService } from '@/app/services/review.service';
 import { CommonModule } from '@angular/common';
 import { Component, inject, input, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-review-card',
@@ -15,6 +16,7 @@ import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 export class ReviewCard {
   private reviewService = inject(ReviewService);
   private authService = inject(AuthService);
+  private messageService = inject(MessageService);
 
   review = input.required<Review>();
   user = this.authService.user;
@@ -92,15 +94,41 @@ export class ReviewCard {
           this.errorState.set(null);
           this.isUpdateReviewOpen.set(false);
           this.isFormSubmitted.set(false);
+
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Review Updated',
+            detail: `Rewiew for plant ${
+              this.plant().id
+            } has been updated successfully.`,
+          });
         },
         error: (err) => {
           this.isLoading.set(false);
           this.errorState.set(err?.error?.message || 'Something went wrong');
+          this.isFormSubmitted.set(false);
+
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail:
+              err.message || 'An error occurred while updating your review.',
+          });
         },
       });
   }
 
   deleteReview(plantId: number) {
-    this.reviewService.deleteReview(plantId).subscribe();
+    this.reviewService.deleteReview(plantId).subscribe({
+      next: () => {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Review Deleted',
+          detail: `Rewiew for plant ${
+            this.plant().id
+          } has been deleted successfully.`,
+        });
+      },
+    });
   }
 }

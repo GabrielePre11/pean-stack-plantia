@@ -4,7 +4,6 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { Container } from '@/app/layout/container/container';
-import { ReviewResponse } from '@/app/models/types/review.type';
 import { CardSkeletonCard } from '@/app/shared/card-skeleton-card/card-skeleton-card';
 import { PlantCard } from '@/app/shared/plant-card/plant-card';
 import { PlantDetailSkeletonCard } from '@/app/shared/plant-detail-skeleton-card/plant-detail-skeleton-card';
@@ -15,6 +14,7 @@ import { WishlistService } from '@/app/services/wishlist.service';
 import { AuthService } from '@/app/services/auth.service';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ReviewService } from '@/app/services/review.service';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-shop-plant-detail-page',
@@ -38,6 +38,7 @@ export class ShopPlantDetailPage implements OnInit {
   private wishlistService = inject(WishlistService);
   private cartService = inject(CartService);
   private reviewService = inject(ReviewService);
+  private messageService = inject(MessageService);
 
   constructor(private route: ActivatedRoute) {}
 
@@ -132,18 +133,66 @@ export class ShopPlantDetailPage implements OnInit {
   }
 
   // Wishlist Methods
-  toggleWishlist(plant: Plant) {
-    if (!plant) return;
-    this.wishlistService.toggleWishlist(plant).subscribe();
-  }
-
   isAlreadyInWishlist(slug: string) {
     return this.wishlistService.isAlreadyInWishlist(slug);
   }
 
+  toggleWishlist(plant: Plant) {
+    if (!this.authService.user()) {
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'Not Logged In',
+        detail: 'You need to be logged in to manage your wishlist.',
+      });
+      return;
+    }
+
+    // So that the value is checked before the toggle
+    const alreadyInWishlist = this.isAlreadyInWishlist(plant.slug);
+
+    this.wishlistService.toggleWishlist(plant).subscribe({
+      next: () => {
+        this.messageService.add({
+          severity: alreadyInWishlist ? 'info' : 'success',
+          summary: alreadyInWishlist
+            ? 'Removed from Wishlist'
+            : 'Added to Wishlist',
+          detail: alreadyInWishlist
+            ? `${plant.name} has been removed from your wishlist.`
+            : `${plant.name} has been added to your wishlist.`,
+        });
+      },
+      error: (err) => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail:
+            err.message || 'An error occurred while updating your wishlist.',
+        });
+      },
+    });
+  }
+
   // Cart Methods
   addToCart(plant: Plant) {
-    this.cartService.addToCart(plant).subscribe();
+    if (!this.authService.user()) {
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'Not Logged In',
+        detail: 'You need to be logged in to manage your cart.',
+      });
+      return;
+    }
+
+    this.cartService.addToCart(plant).subscribe({
+      next: () => {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Added to Cart',
+          detail: `${plant.name} has been added to your cart.`,
+        });
+      },
+    });
   }
 
   // Review Methods
@@ -172,6 +221,12 @@ export class ShopPlantDetailPage implements OnInit {
           this.errorState.set(null);
           this.isFormSubmitted.set(false);
 
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Review Created',
+            detail: `A review has been created for plant ${plantId}.`,
+          });
+
           // Form Reset
           this.toggleReviewForm();
           this.rating.reset(0);
@@ -180,6 +235,14 @@ export class ShopPlantDetailPage implements OnInit {
         error: (err) => {
           this.isLoading.set(false);
           this.errorState.set(err?.error?.message || 'Something went wrong');
+
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail:
+              err?.error?.message ||
+              'An error occurred while submitting your review.',
+          });
         },
       });
   }

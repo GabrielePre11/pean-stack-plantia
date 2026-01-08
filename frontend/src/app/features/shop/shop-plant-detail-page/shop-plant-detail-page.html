@@ -45,7 +45,7 @@
             <button
               class="grid place-items-center border border-bg p-2 bg-text text-bg rounded-full transition-colors duration-200 ease-in-out hover:bg-text/90"
               aria-label="Add To Wishlist"
-              (click)="user() && toggleWishlist(plant()!)"
+              (click)="toggleWishlist(plant()!)"
               [attr.aria-pressed]="isAlreadyInWishlist(plant()!.slug)"
             >
               <svg
@@ -71,7 +71,7 @@
             <button
               class="grid place-items-center border border-bg p-2 bg-text text-bg rounded-full transition-colors duration-200 ease-in-out hover:bg-text/90"
               aria-label="Add To Cart"
-              (click)="user() && addToCart(plant()!)"
+              (click)="addToCart(plant()!)"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
