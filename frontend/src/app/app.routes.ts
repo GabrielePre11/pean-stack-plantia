@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { authGuard } from '@/app/guards/auth-guard';
 import { noAuthGuard } from '@/app/guards/no-auth-guard';
+import { adminGuard } from '@/app/guards/admin-guard';
 
 export const routes: Routes = [
   //============== Main ==============//
@@ -68,6 +69,20 @@ export const routes: Routes = [
           import('@/app/features/auth/register-page/register-page').then(
             (m) => m.RegisterPage
           ),
+      },
+    ],
+  },
+
+  //============== Admin Dashboard Routes [Protected by adminGuard] ==============//
+  {
+    path: 'admin',
+    canActivate: [authGuard, adminGuard],
+    canActivateChild: [authGuard, adminGuard],
+    children: [
+      {
+        path: 'dashboard',
+        loadComponent: () =>
+          import('@/app/features/dashboard/dashboard').then((m) => m.Dashboard),
       },
     ],
   },

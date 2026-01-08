@@ -9,6 +9,7 @@
     <!--============== Sign Out ===============-->
     <li
       class="py-1 border-b border-border-darker transition-colors duration-200 ease-in-out hover:text-background-meta"
+      (click)="closeUserMenu()"
     >
       <button (click)="signOut()">Sign Out</button>
     </li>
@@ -17,8 +18,9 @@
     @if (this.user()?.role === "ADMIN") {
     <li
       class="py-1 border-b border-border-darker transition-colors duration-200 ease-in-out hover:text-background-meta"
+      (click)="closeUserMenu()"
     >
-      <a routerLink="/dashboard">Dashboard</a>
+      <a routerLink="/admin/dashboard">Dashboard</a>
     </li>
     }
   </ul>

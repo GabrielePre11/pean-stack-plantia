@@ -18,7 +18,7 @@ export const generateToken = (
     httpOnly: true, // It prevents XSS attacks
     secure: process.env.NODE_ENV === "production",
     sameSite: process.env.NODE_ENV === "production" ? "strict" : "lax", // It prevents CSRF attacks
-    maxAge: 1000 * 60 * 60, // 1 hour
+    maxAge: 5 * 60 * 60 * 1000, // 5 hour (PROVVISORIO)
   });
 
   return token;

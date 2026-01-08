@@ -3,6 +3,7 @@ import { inject, Injectable, signal } from '@angular/core';
 import {
   DetailedPlantPageResponse,
   Plant,
+  PlantBody,
   PlantResponse,
 } from '@/app/models/types/plant.type';
 import { Observable, switchMap, tap } from 'rxjs';
@@ -117,6 +118,106 @@ export class PlantService {
           if (Array.isArray(data.categoryPlants)) {
             this.setRecommendedPlants(data.categoryPlants.slice(0, 4));
           }
+        })
+      );
+  }
+
+  // Dashboard Methods
+  createPlant({
+    name,
+    categoryId,
+    description,
+    image,
+    price,
+    stock,
+    isActive,
+    careLevel,
+    light,
+    water,
+  }: PlantBody): Observable<Plant> {
+    return this.httpClient
+      .post<Plant>(
+        `${this.serverUrl}/create`,
+        {
+          name,
+          categoryId,
+          description,
+          image,
+          price,
+          stock,
+          isActive,
+          careLevel,
+          light,
+          water,
+        },
+        {
+          withCredentials: true,
+        }
+      )
+      .pipe(
+        tap((plant: Plant) => {
+          this._plants.update((prev) => [...prev, plant]);
+        })
+      );
+  }
+
+  updatePlant(
+    plantSlug: string,
+    {
+      name,
+      categoryId,
+      description,
+      image,
+      price,
+      stock,
+      isActive,
+      careLevel,
+      light,
+      water,
+    }: Partial<PlantBody>
+  ): Observable<Plant> {
+    return this.httpClient
+      .put<Plant>(
+        `${this.serverUrl}/update/${plantSlug}`,
+        {
+          name,
+          categoryId,
+          description,
+          image,
+          price,
+          stock,
+          isActive,
+          careLevel,
+          light,
+          water,
+        },
+        {
+          withCredentials: true,
+        }
+      )
+      .pipe(
+        tap((plantToUpdate: Plant) => {
+          this._plants.update((prev) =>
+            prev.map((currentPlant) =>
+              currentPlant.id === plantToUpdate.id
+                ? { ...currentPlant, ...plantToUpdate }
+                : currentPlant
+            )
+          );
+        })
+      );
+  }
+
+  deletePlant(plantSlug: string): Observable<Plant> {
+    return this.httpClient
+      .delete<Plant>(`${this.serverUrl}/delete/${plantSlug}`, {
+        withCredentials: true,
+      })
+      .pipe(
+        tap((plantToDelete: Plant) => {
+          this._plants.update((prev) =>
+            prev.filter((currentPlant) => currentPlant.id !== plantToDelete.id)
+          );
         })
       );
   }

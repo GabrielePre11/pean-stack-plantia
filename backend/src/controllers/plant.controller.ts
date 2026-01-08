@@ -182,6 +182,7 @@ export const createPlant = async (
         stock,
         isActive,
       },
+      include: { category: true, reviews: true },
     });
 
     return res.status(201).json({ plant });

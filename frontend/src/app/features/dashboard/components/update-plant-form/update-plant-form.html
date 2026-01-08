@@ -1,0 +1,186 @@
+<form
+  class="absolute max-h-175 text-center flex flex-col gap-3 p-5 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-text text-bg rounded-sm w-full z-40 max-w-125 shadow-sm shadow-mustard transition-transform duration-200 ease-in-out"
+  [ngClass]="isOpen() ? 'scale-105 visible opacity-100' : 'scale-0 hidden opacity-0 pointer-events-none'"
+  [attr.aria-expanded]="isOpen()"
+  aria-modal="true"
+  (submit)="onSubmit($event, plant()!.slug)"
+>
+  <!--============== Heading ==============-->
+  <h3
+    class="text-3xl md:text-4xl xl:text-5xl font-secondary font-bold text-bg-contrast mb-3.5"
+  >
+    Update Plant
+  </h3>
+
+  <!--============== Input Fields ==============-->
+
+  <!--============== Name & Category ==============-->
+  <div
+    class="flex flex-col sm:flex-row gap-1.5 items-center sm:justify-between"
+  >
+    <!--============== Name ==============-->
+    <input
+      type="text"
+      inputmode="latin"
+      placeholder="Name"
+      class="flex w-full bg-bg text-text py-3 px-4 rounded-sm border border-mustard outline-none focus:ring-2 focus:ring-mustard focus:ring-offset-2"
+      name="plant-name"
+      id="plant-name"
+      [formControl]="name"
+    />
+
+    <!--============== Category ==============-->
+    <select
+      name="category"
+      id="category"
+      class="flex w-full bg-bg text-text py-[13.2px] px-4 rounded-sm border border-mustard outline-none focus:ring-2 focus:ring-mustard focus:ring-offset-2"
+      [formControl]="categoryId"
+    >
+      <option value="" disabled selected hidden>Select a category</option>
+      @for (category of dashboardCategories; track category.id) {
+      <option [value]="category.id">{{category.name}}</option>
+      }
+    </select>
+  </div>
+
+  <!--============== Description ==============-->
+  <textarea
+    name="description"
+    id="description"
+    placeholder="Description..."
+    cols="30"
+    rows="5"
+    class="bg-bg text-text border border-mustard rounded-sm p-3 resize-none overflow-y-auto outline-none focus:ring-2 focus:ring-mustard focus:ring-offset-2"
+    [formControl]="description"
+  ></textarea>
+
+  <!--============== Image ==============-->
+  <input
+    type="text"
+    inputmode="url"
+    placeholder="Image URL..."
+    class="bg-bg text-text border border-mustard rounded-sm p-3 resize-none overflow-y-auto outline-none focus:ring-2 focus:ring-mustard focus:ring-offset-2"
+    [formControl]="image"
+  />
+
+  <!--============== isActive ==============-->
+  <select
+    name="is-active"
+    id="is-active"
+    class="flex w-full bg-bg text-text py-[13.2px] px-4 rounded-sm border border-mustard outline-none focus:ring-2 focus:ring-mustard focus:ring-offset-2"
+    [formControl]="isActive"
+  >
+    <option value="" disabled selected hidden>Select Status</option>
+    <option value="true">Active</option>
+    <option value="false">Inactive</option>
+  </select>
+
+  <!--============== Price & Stock ==============-->
+  <div class="flex items-center justify-between gap-1.5">
+    <input
+      type="number"
+      inputmode="numeric"
+      min="1"
+      max="999"
+      placeholder="Price €"
+      class="flex w-full bg-bg text-text py-3 px-4 rounded-sm border border-mustard outline-none focus:ring-2 focus:ring-mustard focus:ring-offset-2"
+      [formControl]="price"
+    />
+    <input
+      type="number"
+      inputmode="numeric"
+      placeholder="Stock"
+      min="0"
+      max="999"
+      class="flex w-full bg-bg text-text py-3 px-4 rounded-sm border border-mustard outline-none focus:ring-2 focus:ring-mustard focus:ring-offset-2"
+      [formControl]="stock"
+    />
+  </div>
+
+  <!--============== CareLevel ==============-->
+  <select
+    name="care-level"
+    id="care-level"
+    class="flex w-full bg-bg text-text py-[13.2px] px-4 rounded-sm border border-mustard outline-none focus:ring-2 focus:ring-mustard focus:ring-offset-2"
+    [formControl]="careLevel"
+  >
+    <option [value]="CareLevel.EASY">Easy</option>
+    <option [value]="CareLevel.MEDIUM">Medium</option>
+    <option [value]="CareLevel.HARD">Hard</option>
+  </select>
+
+  <!--============== Water ==============-->
+  <select
+    name="water"
+    id="water"
+    class="flex w-full bg-bg text-text py-[13.2px] px-4 rounded-sm border border-mustard outline-none focus:ring-2 focus:ring-mustard focus:ring-offset-2"
+    [formControl]="water"
+  >
+    <option [value]="WaterType.LOW">Low</option>
+    <option [value]="WaterType.MEDIUM">Medium</option>
+    <option [value]="WaterType.HIGH">High</option>
+  </select>
+
+  <!--============== Light ==============-->
+  <select
+    name="light"
+    id="light"
+    class="flex w-full bg-bg text-text py-[13.2px] px-4 rounded-sm border border-mustard outline-none focus:ring-2 focus:ring-mustard focus:ring-offset-2"
+    [formControl]="light"
+  >
+    <option [value]="LightType.LOW">Low</option>
+    <option [value]="LightType.INDIRECT">Indirect</option>
+    <option [value]="LightType.DIRECT">Direct</option>
+  </select>
+
+  <!--============== Errors ==============-->
+  <!-- Name Error -->
+  @if((name.dirty || isFormSubmitted()) && name.invalid) {
+  <small class="error-state"> {{getNameError()}} </small>
+  }
+
+  <!-- Description Error -->
+  @if((description.dirty || isFormSubmitted()) && description.invalid) {
+  <small class="error-state"> {{getDescriptionError()}} </small>
+  }
+
+  <!-- Price Error -->
+  @if((price.dirty || isFormSubmitted()) && price.invalid) {
+  <small class="error-state"> {{getPriceError()}} </small>
+  }
+
+  <!--============== Actions ==============-->
+  <div class="flex items-center justify-between gap-2 mt-1.5">
+    <button
+      type="submit"
+      class="inline-block items-center justify-center text-lg rounded-sm py-2 px-4 bg-mustard text-bg-darker w-full transition-colors duration-200 ease-in-out hover:bg-mustard/90"
+    >
+      @if(isLoading()) {
+      <span aria-label="Loading Spinner" aria-live="polite">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="26"
+          height="26"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="lucide lucide-loader-circle-icon lucide-loader-circle text-bg-darker place-self-center transition-transform duration-200 ease-in-out animate-spin"
+        >
+          <path d="M21 12a9 9 0 1 1-6.219-8.56" />
+        </svg>
+      </span>
+      } @else { Update }
+    </button>
+
+    <button
+      type="button"
+      class="inline-block items-center justify-center text-lg rounded-sm py-2 px-4 bg-red-600 text-text w-full transition-colors duration-200 ease-in-out hover:bg-red-700"
+      (click)="closeUpdateForm()"
+    >
+      Cancel
+    </button>
+  </div>
+</form>

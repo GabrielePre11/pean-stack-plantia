@@ -1,5 +1,5 @@
 <header
-  class="fixed top-0 left-0 w-full z-40 transition-all duration-200 ease-in-out"
+  class="fixed top-0 left-0 w-full z-50 transition-all duration-200 ease-in-out"
   [ngClass]="isHeaderScrolled() ? 'bg-bg shadow-sm shadow-bg-darker' : 'bg-transparent border-b border-b-border-darkest'"
 >
   <app-container [className]="'flex items-center justify-between py-2.5'">
@@ -170,8 +170,8 @@
       <app-user-menu
         role="menu"
         [attr.aria-expanded]="!isUserMenuOpen()"
-        [attr.aria-hidden]="!isUserMenuOpen()"
         [isOpen]="isUserMenuOpen()"
+        (onClose)="toggleUserMenu()"
       />}
     </ul>
   </app-container>

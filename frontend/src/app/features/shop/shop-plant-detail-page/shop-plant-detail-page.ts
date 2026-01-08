@@ -1,17 +1,12 @@
-import {
-  DetailedPlantPageResponse,
-  Plant,
-} from '@/app/models/types/plant.type';
+import { Plant } from '@/app/models/types/plant.type';
 import { PlantService } from '@/app/services/plant.service';
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { Container } from '@/app/layout/container/container';
-import { Review, ReviewResponse } from '@/app/models/types/review.type';
-import { CategoryService } from '@/app/services/category.service';
+import { ReviewResponse } from '@/app/models/types/review.type';
 import { CardSkeletonCard } from '@/app/shared/card-skeleton-card/card-skeleton-card';
 import { PlantCard } from '@/app/shared/plant-card/plant-card';
-import { similarPlantsResponse } from '@/app/models/types/category.type';
 import { PlantDetailSkeletonCard } from '@/app/shared/plant-detail-skeleton-card/plant-detail-skeleton-card';
 import { ReviewSkeletonCard } from '@/app/shared/review-skeleton-card/review-skeleton-card';
 import { ReviewCard } from '@/app/shared/review-card/review-card';

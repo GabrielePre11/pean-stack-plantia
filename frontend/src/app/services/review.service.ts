@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, signal } from '@angular/core';
+import { computed, Injectable, signal } from '@angular/core';
 import {
   HomeReviewsResponse,
   Review,
@@ -18,6 +18,11 @@ export class ReviewService {
 
   private _reviews = signal<Review[]>([]);
   readonly reviews = this._reviews.asReadonly();
+
+  readonly dashboardReviews = computed(() =>
+    [...this.reviews()].sort((a, b) => b.id - a.id)
+  );
+  readonly totalReviews = computed(() => this.reviews().length);
 
   setReviews(reviews: Review[]) {
     this._reviews.set(reviews);

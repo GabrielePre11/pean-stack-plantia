@@ -8,8 +8,14 @@ import {
   User,
 } from '@/app/models/types/auth.type';
 import { map, Observable, switchMap, tap } from 'rxjs';
-import { WishlistService } from './wishlist.service';
-import { WishlistResponse } from '../models/types/wishlist.type';
+
+import { WishlistService } from '@/app/services/wishlist.service';
+import { WishlistResponse } from '@/app/models/types/wishlist.type';
+import {
+  DashboardUser,
+  GetAdminsResponse,
+  GetUsersResponse,
+} from '@/app/models/types/dashboard.type';
 
 @Injectable({
   providedIn: 'root',
@@ -18,14 +24,39 @@ export class AuthService {
   private serverUrl = 'http://localhost:3000/api/v1/auth';
   private wishlistService = inject(WishlistService);
 
+  constructor(private httpClient: HttpClient) {}
+
   private _user = signal<User | null>(null);
+  private _users = signal<DashboardUser[]>([]);
+  private _admins = signal<DashboardUser[]>([]);
+  private _totalUsers = signal<number>(0);
+  private _totalAdmins = signal<number>(0);
+
   readonly user = this._user.asReadonly();
+  readonly users = this._users.asReadonly();
+  readonly admins = this._admins.asReadonly();
+  readonly totalUsers = this._totalUsers.asReadonly();
+  readonly totalAdmins = this._totalAdmins.asReadonly();
 
   setUser(user: User | null) {
     this._user.set(user);
   }
 
-  constructor(private httpClient: HttpClient) {}
+  setUsers(users: DashboardUser[]) {
+    this._users.set(users);
+  }
+
+  setAdmins(admins: DashboardUser[]) {
+    this._users.set(admins);
+  }
+
+  setTotalUsers(totalUsers: number) {
+    this._totalUsers.set(totalUsers);
+  }
+
+  setTotalAdmins(totalAdmins: number) {
+    this._totalAdmins.set(totalAdmins);
+  }
 
   /**
    * @ tap è un operatore di RxJS utilizzato per eseguire effetti collaterali
@@ -94,5 +125,34 @@ export class AuthService {
     return this.httpClient
       .post(`${this.serverUrl}/sign-out`, {}, { withCredentials: true })
       .pipe(tap(() => this.setUser(null)));
+  }
+
+  // Dashboard Methods
+  getAdmins(): Observable<GetAdminsResponse> {
+    return this.httpClient.get<GetAdminsResponse>(`${this.serverUrl}/admins`, {
+      withCredentials: true,
+    });
+  }
+
+  getUsers(): Observable<GetUsersResponse | GetAdminsResponse> {
+    return this.httpClient
+      .get<GetUsersResponse>(`${this.serverUrl}/users`, {
+        withCredentials: true,
+      })
+      .pipe(
+        tap((data: GetUsersResponse) => {
+          if (Array.isArray(data.users)) this.setAdmins(data.users);
+          this.setTotalUsers(data.totalUsers);
+        })
+      )
+      .pipe(switchMap(() => this.getAdmins()))
+      .pipe(
+        tap((data: GetAdminsResponse) => {
+          if (data.admins) {
+            if (Array.isArray(data.admins)) this.setAdmins(data.admins);
+            this.setTotalAdmins(data.totalAdmins);
+          }
+        })
+      );
   }
 }

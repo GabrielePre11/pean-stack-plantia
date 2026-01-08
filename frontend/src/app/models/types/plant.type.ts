@@ -42,19 +42,32 @@ export interface DetailedPlantPageResponse {
   totalReviews: number;
 }
 
-enum CareLevel {
+export interface PlantBody {
+  name: string;
+  categoryId: number;
+  description: string;
+  image: string;
+  price: number;
+  stock: number;
+  isActive: boolean;
+  careLevel: CareLevel;
+  light: LightType;
+  water: WaterType;
+}
+
+export enum CareLevel {
   EASY,
   MEDIUM,
   HARD,
 }
 
-enum LightType {
+export enum LightType {
   LOW,
   INDIRECT,
   DIRECT,
 }
 
-enum WaterType {
+export enum WaterType {
   LOW,
   MEDIUM,
   HIGH,

@@ -1,6 +1,6 @@
 import { AuthService } from '@/app/services/auth.service';
 import { CommonModule } from '@angular/common';
-import { Component, inject, input, signal } from '@angular/core';
+import { Component, inject, input, output, signal } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 @Component({
@@ -15,7 +15,13 @@ export class UserMenu {
 
   isLoading = signal<boolean>(false);
   errorState = signal<string | null>(null);
-  isOpen = input();
+  isOpen = input.required<boolean>();
+
+  onClose = output<boolean>();
+
+  closeUserMenu() {
+    this.onClose.emit(false);
+  }
 
   signOut() {
     this.isLoading.set(true);

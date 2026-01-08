@@ -119,7 +119,7 @@ export const getUsers = async (
 ) => {
   try {
     const users = await prisma.user.findMany({
-      select: { email: true },
+      select: { id: true, name: true, email: true, role: true },
     });
 
     return res.status(200).json({ users, totalUsers: users.length });
@@ -136,7 +136,7 @@ export const getAdmins = async (
   try {
     const admins = await prisma.user.findMany({
       where: { role: "ADMIN" },
-      select: { email: true },
+      select: { id: true, name: true, email: true, role: true },
     });
 
     return res.status(200).json({ admins, totalAdmins: admins.length });
