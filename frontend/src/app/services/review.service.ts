@@ -7,12 +7,13 @@ import {
   ReviewResponse,
 } from '@/app/models/types/review.type';
 import { Observable, tap } from 'rxjs';
+import { environment } from '@/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ReviewService {
-  private serverUrl = 'http://localhost:3000/api/v1/reviews';
+  private serverUrl = `${environment.apiURL}/reviews`;
 
   constructor(private httpClient: HttpClient) {}
 

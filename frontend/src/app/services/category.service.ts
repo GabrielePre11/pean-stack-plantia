@@ -6,12 +6,13 @@ import {
   similarPlantsResponse,
 } from '@/app/models/types/category.type';
 import { Observable, tap } from 'rxjs';
+import { environment } from '@/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CategoryService {
-  private serverUrl = 'http://localhost:3000/api/v1/categories';
+  private serverUrl = `${environment.apiURL}/categories`;
 
   constructor(private httpClient: HttpClient) {}
 

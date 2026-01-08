@@ -5,7 +5,9 @@
   "description": "",
   "main": "dist/index.js",
   "scripts": {
-    "dev": "tsx watch src/index.ts"
+    "dev": "tsx watch src/index.ts",
+    "start": "NODE_ENV=production node dist/index.js",
+    "build": "tsc"
   },
   "keywords": [],
   "author": "Prestano Gabriele",

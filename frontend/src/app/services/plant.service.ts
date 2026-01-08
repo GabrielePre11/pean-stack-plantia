@@ -11,12 +11,13 @@ import { FiltersType } from '../models/types/filters.type';
 import { ReviewService } from './review.service';
 import { CategoryService } from './category.service';
 import { similarPlantsResponse } from '../models/types/category.type';
+import { environment } from '@/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PlantService {
-  private serverUrl = 'http://localhost:3000/api/v1/plants';
+  private serverUrl = `${environment.apiURL}/plants`;
 
   private reviewService = inject(ReviewService);
   private categoryService = inject(CategoryService);

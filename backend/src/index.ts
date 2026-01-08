@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import helmet from "helmet";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+import path from "path";
 
 import authRoute from "@/routes/auth.route";
 import wishlistRoute from "@/routes/wishlist.route";
@@ -42,6 +43,16 @@ app.use(`${API_URL}/cart`, cartRoute);
 app.use(`${API_URL}/categories`, categoryRoute);
 app.use(`${API_URL}/reviews`, reviewRoute);
 app.use(`${API_URL}/plants`, plantRoute);
+
+//============ Production ============//
+if (process.env.NODE_ENV === "production") {
+  const frontendPath = path.join(process.cwd(), "frontend/dist/frontend");
+  app.use(express.static(frontendPath));
+
+  app.get(/.*/, (req, res) => {
+    res.sendFile(path.join(frontendPath, "index.html"));
+  });
+}
 
 //============ Server Start ============//
 app.listen(PORT, () => {

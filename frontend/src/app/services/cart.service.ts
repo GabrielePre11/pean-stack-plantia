@@ -3,12 +3,13 @@ import { Injectable, signal } from '@angular/core';
 import { Plant } from '../models/types/plant.type';
 import { catchError, Observable, tap } from 'rxjs';
 import { CartItem, CartResponse } from '@/app/models/types/cart.type';
+import { environment } from '@/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CartService {
-  private serverUrl = 'http://localhost:3000/api/v1/cart';
+  private serverUrl = `${environment.apiURL}/cart`;
 
   constructor(private httpClient: HttpClient) {}
 

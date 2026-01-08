@@ -3,12 +3,13 @@ import { Injectable, signal } from '@angular/core';
 import { Observable, tap } from 'rxjs';
 import { WishlistResponse } from '../models/types/wishlist.type';
 import { Plant } from '../models/types/plant.type';
+import { environment } from '@/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class WishlistService {
-  private serverUrl = 'http://localhost:3000/api/v1/wishlist';
+  private serverUrl = `${environment.apiURL}/wishlist`;
 
   constructor(private httpClient: HttpClient) {}
 

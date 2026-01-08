@@ -16,12 +16,13 @@ import {
   GetAdminsResponse,
   GetUsersResponse,
 } from '@/app/models/types/dashboard.type';
+import { environment } from '@/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private serverUrl = 'http://localhost:3000/api/v1/auth';
+  private serverUrl = `${environment.apiURL}/auth`;
   private wishlistService = inject(WishlistService);
 
   constructor(private httpClient: HttpClient) {}
