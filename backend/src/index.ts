@@ -29,7 +29,10 @@ app.use(
 );
 app.use(
   cors({
-    origin: process.env.CLIENT_URL,
+    origin: [
+      "https://pean-stack-plantia.onrender.com",
+      "http://localhost:4200",
+    ],
     credentials: true,
   })
 );

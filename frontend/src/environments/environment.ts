@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiURL: 'http://localhost:3000/api/v1', // da cambiare
+  apiURL: 'https://pean-stack-plantia.onrender.com/api/v1',
 };
