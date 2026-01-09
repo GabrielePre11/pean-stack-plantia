@@ -33,3 +33,15 @@ Full-stack E-commerce built with the PEAN Stack (PostgreSQL, Express, Angular 20
 - **Authentication**: Secure Login/Register system using JWT and Cookies.
 - **Modern UI**: Smooth transitions, mobile-first responsiveness, and intuitive UX.
 - **Prisma Integration**: Advanced filtering and relational data handling.
+
+---
+
+- ## 📸 Screenshots
+![App Screenshot](screenshots/desktop.png)
+![App Screenshot](screenshots/mobile.png)
+![App Screenshot](screenshots/shop-desktop.png)
+![App Screenshot](screenshots/detailed-plant-desktop.png)
+![App Screenshot](screenshots/login-page-lg.png)
+![App Screenshot](screenshots/wishlist-desktop.png)
+![App Screenshot](screenshots/dashboard-desktop.png)
+![App Screenshot](screenshots/search-page-desktop.png)
