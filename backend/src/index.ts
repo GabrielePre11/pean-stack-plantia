@@ -48,6 +48,7 @@ app.use(`${API_URL}/plants`, plantRoute);
 if (process.env.NODE_ENV === "production") {
   const frontendPath = path.join(
     process.cwd(),
+    "..",
     "frontend",
     "dist",
     "frontend",
