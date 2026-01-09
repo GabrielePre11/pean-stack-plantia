@@ -1,6 +1,6 @@
 # 🌿 Plantia - Full Stack PEAN E-Commerce
 
-Full-stack E-commerce built with the PEAN Stack (PostgreSQL, Express, Angular 20, Node.js). Features: JWT Auth, Admin Dashboard (CRUD), Real-time Toast notifications, Wishlist/Cart management, and advanced filtering with Prisma ORM. Fully responsive with TailwindCSS & PrimeNG.
+Plantia is a full-stack e-commerce built with the PEAN Stack (PostgreSQL, Express, Angular 20, Node.js). Features: JWT Auth, Admin Dashboard (CRUD), Real-time Toast notifications, Wishlist/Cart management, and advanced filtering with Prisma ORM. Fully responsive with TailwindCSS & PrimeNG.
 
 🚀 **[Live Demo on Render](https://pean-stack-plantia.onrender.com)**
 
